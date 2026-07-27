@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:text="Extras"
+                android:text="@string/extras_title"
                 android:textSize="16sp"
                 android:textColor="@color/text_primary"
                 android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Additional protection"
+            android:text="@string/extras_subtitle"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -82,7 +82,7 @@
             android:id="@+id/exemptAppsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="⚙️ Manage App Exemptions"
+            android:text="@string/manage_app_exemptions"
             android:textAllCaps="false"
             style="?android:attr/borderlessButtonStyle" />
 
