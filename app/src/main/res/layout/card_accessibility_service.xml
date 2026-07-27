@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:text="Side Button Support (Experimental)"
+                android:text="@string/side_button_support_title"
                 android:textSize="16sp"
                 android:textColor="@color/text_primary"
                 android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Enable Accessibility Service for instant-lock support"
+            android:text="@string/side_button_support_desc"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -62,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Enable Side Button Support"
+                android:text="@string/enable_side_button_support"
                 android:textSize="14sp"
                 android:textColor="@color/text_primary" />
 
@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Open Accessibility Settings"
+            android:text="@string/open_accessibility_settings"
             android:background="?android:attr/selectableItemBackground"
             android:visibility="gone" />
 
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Allows Privacy Flip to detect side/power button locks before keyguard fully engages. Enables camera and microphone privacy even with instant-lock. This service only detects lock screen appearance and does not read screen content."
+            android:text="@string/accessibility_explanation"
             android:textSize="11sp"
             android:textColor="@color/text_secondary" />
 
