@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="⚠️ Usage Access Permission Required"
+            android:text="@string/usage_access_required_title"
             android:textStyle="bold"
             android:textSize="14sp"
             android:textColor="@android:color/black" />
@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="To detect foreground apps, grant Usage Access permission."
+            android:text="@string/usage_access_required_desc"
             android:textSize="12sp"
             android:textColor="@android:color/black"
             android:layout_marginTop="4dp" />
@@ -36,7 +36,7 @@
             android:id="@+id/grant_permission_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grant Permission"
+            android:text="@string/grant_permission"
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loading apps..."
+            android:text="@string/loading_apps"
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
@@ -63,7 +63,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Installed Apps"
+        android:text="@string/installed_apps_title"
         android:textStyle="bold"
         android:textSize="14sp"
         android:textColor="@color/text_primary"
@@ -72,7 +72,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select apps to exempt from privacy protection"
+        android:text="@string/select_apps_exempt_desc"
         android:textSize="12sp"
         android:textColor="@color/text_secondary"
         android:layout_marginBottom="8dp" />
@@ -82,7 +82,7 @@
         android:id="@+id/empty_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No user apps found"
+        android:text="@string/no_user_apps_found"
         android:textSize="14sp"
         android:textColor="@color/text_secondary"
         android:padding="16dp"
@@ -106,7 +106,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="When an exempt app is in the foreground, PrivacyFlip will not disable any features."
+        android:text="@string/exempt_apps_explanation"
         android:textSize="12sp"
         android:textColor="@android:color/darker_gray"
         android:layout_marginTop="12dp" />
