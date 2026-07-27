@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:text="System Requirements"
+                android:text="@string/system_requirements_title"
                 android:textSize="16sp"
                 android:textColor="@color/system_requirements_text"
                 android:textStyle="bold" />
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Required for privacy control functionality"
+            android:text="@string/system_requirements_subtitle"
             android:textSize="12sp"
             android:textColor="@color/system_requirements_text" />
 
@@ -68,7 +68,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Privileged Access"
+                    android:text="@string/privileged_access_title"
                     android:textSize="14sp"
                     android:textColor="@color/system_requirements_text"
                     android:textStyle="bold" />
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Required for system-level privacy controls"
+                android:text="@string/privileged_access_subtitle"
                 android:textSize="12sp"
                 android:textColor="@color/system_requirements_text" />
 
@@ -105,7 +105,7 @@
                     android:id="@+id/grantRootButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grant Root"
+                    android:text="@string/grant_root"
                     android:textSize="13sp"
                     android:textColor="@color/icon_white"
                     android:background="@drawable/button_rounded_blue"
@@ -142,7 +142,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Battery Optimization"
+                    android:text="@string/battery_optimization_title"
                     android:textSize="14sp"
                     android:textColor="@color/system_requirements_text"
                     android:textStyle="bold" />
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="@color/system_requirements_text"
-                    android:text="Optimization disabled" />
+                    android:text="@string/optimization_disabled" />
 
             </LinearLayout>
 
@@ -161,7 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Disable battery optimization for reliable background operation"
+                android:text="@string/disable_battery_opt_desc_bg"
                 android:textSize="12sp"
                 android:textColor="@color/system_requirements_text" />
 
@@ -178,7 +178,7 @@
                     android:id="@+id/batteryOptimizationButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OPEN BATTERY SETTINGS"
+                    android:text="@string/open_battery_settings_caps"
                     android:textSize="13sp"
                     android:textColor="@color/icon_white"
                     android:background="@drawable/button_rounded_blue"
