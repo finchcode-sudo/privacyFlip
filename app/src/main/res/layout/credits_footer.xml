@@ -25,7 +25,7 @@
         android:id="@+id/donateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Donate ♥️"
+        android:text="@string/donate_label"
         android:textSize="14sp"
         android:textColor="@color/donate_button_text"
         android:backgroundTint="@color/donate_button_bg"
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Do you need a custom app?\nI can help: hello@doru.uk"
+        android:text="@string/custom_app_message"
         android:textSize="12sp"
         android:textColor="@color/text_primary"
         android:gravity="center" />
@@ -56,7 +56,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Created by "
+            android:text="@string/created_by_label"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -64,7 +64,7 @@
             android:id="@+id/createdByText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Doru Moraru"
+            android:text="@string/author_name"
             android:textSize="12sp"
             android:textColor="@color/trust_blue"
             android:clickable="true"
