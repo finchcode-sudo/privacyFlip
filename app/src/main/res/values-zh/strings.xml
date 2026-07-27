@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ===== 应用名称 ===== -->
-    <string name="app_name">隐私开关</string>
-
     <!-- ===== 快速设置磁贴 ===== -->
-    <string name="tile_privacy_switch">隐私开关</string>
-
     <!-- ===== 小部件 ===== -->
+    <!-- ===== 摄像头与麦克风信息对话框 ===== -->
+    <!-- ===== 飞行模式信息对话框 ===== -->
+    <!-- ===== 省电模式信息对话框 ===== -->
+    <!-- ===== 保护模式选项 ===== -->
+    <!-- ===== 调试日志 ===== -->
+    <!-- ===== 页脚 ===== -->
+    <!-- ===== 辅助功能服务 ===== -->
+    <!-- ===== 主界面 ===== -->
+    <!-- ===== 锁屏/解锁设置 ===== -->
+    <!-- ===== 隐私功能名称 ===== -->
+    <!-- ===== 扩展功能 ===== -->
+    <!-- ===== 延迟设置 ===== -->
+    <!-- ===== 辅助功能卡片 ===== -->
+    <!-- ===== 系统要求卡片状态 ===== -->
+    <!-- ===== 对话框 ===== -->
+    <!-- ===== 权限提示 ===== -->
+    <!-- ===== 通知 ===== -->
+    <!-- ===== 快速设置磁贴状态 ===== -->
+    <!-- ===== 异常状态 ===== -->
+    <!-- Layout hardcoded strings extracted -->
+
+    <string name="app_name">隐私开关</string>
+    <string name="tile_privacy_switch">隐私开关</string>
     <string name="widget_name">隐私开关</string>
     <string name="widget_description">快速切换隐私保护</string>
     <string name="widget_privacy_on">已开启</string>
     <string name="widget_privacy_off">已关闭</string>
-
-    <!-- ===== 摄像头与麦克风信息对话框 ===== -->
     <string name="lock_delay_warning_message">Android 系统不允许在锁屏状态下更改摄像头或麦克风隐私设置。\n\n因此，摄像头和麦克风会忽略自定义的锁屏/解锁延迟设置，并在锁屏时立即触发（如果当前未被占用）。\n\n要确保锁屏时自动禁用摄像头和麦克风：\n\n1. 进入 设置 → 安全 → 屏幕锁定\n2. 点击锁定方式旁边的齿轮图标 ⚙️\n3. 将「自动锁定」设置为 5 秒或更长时间\n4. 关闭「电源键立即锁定」选项（如果存在）</string>
-
-    <!-- ===== 飞行模式信息对话框 ===== -->
     <string name="airplane_mode_info_message">开启飞行模式将同时关闭 Wi-Fi、蓝牙、移动数据和 NFC，无论它们各自的单独设置如何。\n\n在设备锁屏时启用此模式可获得最高级别的隐私保护。</string>
-
-    <!-- ===== 省电模式信息对话框 ===== -->
     <string name="battery_saver_info_message">省电模式会减少后台活动，并可能限制部分应用功能。\n\n它不会直接关闭无线模块（Wi-Fi、蓝牙等），但可能影响同步、定位精度和后台处理。\n\n适合在长时间锁屏时延长电池续航。</string>
-
-    <!-- ===== 保护模式选项 ===== -->
     <string name="only_if_not_manually_set">仅当非手动设置时</string>
-
-    <!-- ===== 调试日志 ===== -->
     <string name="debug_logs">调试日志</string>
     <string name="debug_logs_description">将隐私操作记录到文件</string>
     <string name="view_logs">查看日志</string>
@@ -34,16 +43,10 @@
     <string name="no_logs_to_view">暂无日志</string>
     <string name="logs_cleared">日志已清除</string>
     <string name="debug_logs_title">调试日志</string>
-
-    <!-- ===== 页脚 ===== -->
     <string name="open_source_message">免费、开源、无广告，只为保护你的隐私。\n如果觉得有用，欢迎捐赠支持后续开发。</string>
-
-    <!-- ===== 辅助功能服务 ===== -->
     <string name="accessibility_service_label">隐私开关 - 侧边按钮支持</string>
     <string name="accessibility_service_description">让隐私开关能够更早检测到侧边/电源键锁屏，从而使摄像头和麦克风隐私功能在「即时锁定」模式下也能正常工作。\n\n该服务不会读取屏幕内容或密码，仅用于检测锁屏界面的出现，以便在键盘锁完全启动前触发隐私操作。</string>
-
-    <!-- ===== 主界面 ===== -->
-    <string name="protection_active">保护已开启</string>
+    <string name="protection_active">保护已启用</string>
     <string name="protection_inactive">保护已关闭</string>
     <string name="system_requirements">系统要求</string>
     <string name="system_requirements_desc">隐私控制功能所需</string>
@@ -58,17 +61,13 @@
     <string name="battery_optimization_disabled">优化已关闭</string>
     <string name="battery_optimization_enabled">优化已开启</string>
     <string name="battery_optimization_desc">关闭电池优化以确保可靠的后台运行</string>
-
-    <!-- ===== 锁屏/解锁设置 ===== -->
     <string name="screen_lock_actions">锁屏/解锁操作</string>
     <string name="screen_lock_actions_desc">配置锁屏/解锁时的隐私功能</string>
-    <string name="disable_on_lock">锁屏时关闭</string>
-    <string name="enable_on_unlock">解锁时开启</string>
-    <string name="only_if_not_connected">仅当未连接时</string>
-    <string name="only_if_not_already_enabled">仅当未启用时</string>
-    <string name="only_if_not_in_use">仅当未使用时</string>
-
-    <!-- ===== 隐私功能名称 ===== -->
+    <string name="disable_on_lock">锁屏时禁用</string>
+    <string name="enable_on_unlock">解锁时启用</string>
+    <string name="only_if_not_connected">仅在未连接时</string>
+    <string name="only_if_not_already_enabled">仅在尚未启用时</string>
+    <string name="only_if_not_in_use">仅在未使用时</string>
     <string name="feature_wifi">Wi-Fi</string>
     <string name="feature_bluetooth">蓝牙</string>
     <string name="feature_mobile_data">移动数据</string>
@@ -78,32 +77,24 @@
     <string name="feature_microphone">麦克风</string>
     <string name="feature_airplane_mode">飞行模式</string>
     <string name="feature_battery_saver">省电模式</string>
-
-    <!-- ===== 扩展功能 ===== -->
     <string name="extras">扩展功能</string>
     <string name="extras_desc">额外保护</string>
-    <string name="manage_app_exemptions">管理应用例外</string>
-    <string name="enable_on_lock">锁屏时开启</string>
-    <string name="disable_on_unlock">解锁时关闭</string>
-
-    <!-- ===== 延迟设置 ===== -->
+    <string name="manage_app_exemptions">⚙️ 管理应用豁免</string>
+    <string name="enable_on_lock">锁屏时启用</string>
+    <string name="disable_on_unlock">解锁时禁用</string>
     <string name="delays">延迟设置</string>
     <string name="delays_desc">配置隐私操作的执行时机</string>
     <string name="delay_after_lock">锁屏后延迟（秒）</string>
     <string name="delay_after_unlock">解锁后延迟（秒）</string>
     <string name="debug_notifications">调试通知</string>
-    <string name="debug_notifications_desc">显示隐私操作通知</string>
-
-    <!-- ===== 辅助功能卡片 ===== -->
+    <string name="debug_notifications_desc">为隐私操作显示通知</string>
     <string name="side_button_support">侧边按钮支持（实验性）</string>
-    <string name="side_button_support_desc">启用辅助功能服务以支持即时锁定</string>
-    <string name="enable_side_button_support">启用侧边按钮支持</string>
+    <string name="side_button_support_desc">启用无障碍服务以支持即时锁屏</string>
+    <string name="enable_side_button_support">启用侧键支持</string>
     <string name="service_active">✅ 服务已激活 - 侧边按钮支持已开启</string>
     <string name="service_not_active">⚠️ 请在辅助功能设置中启用</string>
-    <string name="open_accessibility_settings">打开辅助功能设置</string>
+    <string name="open_accessibility_settings">打开无障碍设置</string>
     <string name="open_settings">打开设置</string>
-
-    <!-- ===== 系统要求卡片状态 ===== -->
     <string name="privilege_not_available">不可用</string>
     <string name="root_available">Root 可用</string>
     <string name="shizuku_available">Shizuku 可用</string>
@@ -113,8 +104,6 @@
     <string name="shizuku_granted">Shizuku 已授权</string>
     <string name="dhizuku_granted">Dhizuku 已授权</string>
     <string name="sui_granted">Sui 已授权</string>
-
-    <!-- ===== 对话框 ===== -->
     <string name="camera_mic_info">摄像头与麦克风信息</string>
     <string name="airplane_mode_info">飞行模式信息</string>
     <string name="battery_saver_info">省电模式信息</string>
@@ -124,18 +113,12 @@
     <string name="no_apps_found">未找到应用</string>
     <string name="exempt_apps_hint">当例外应用处于前台时，隐私开关不会关闭任何功能。</string>
     <string name="done">完成</string>
-
-    <!-- ===== 权限提示 ===== -->
     <string name="usage_access_required">⚠️ 使用情况访问权限必需</string>
     <string name="usage_access_required_desc">要检测前台应用，请授予使用情况访问权限。</string>
     <string name="grant_permission">授予权限</string>
-    <string name="loading_apps">正在加载应用...</string>
-
-    <!-- ===== 页脚 ===== -->
+    <string name="loading_apps">正在加载应用…</string>
     <string name="created_by">作者</string>
     <string name="donate">捐赠 ♥️</string>
-
-    <!-- ===== 通知 ===== -->
     <string name="privacy_monitor">隐私监控</string>
     <string name="privacy_monitor_desc">监控屏幕状态以执行隐私操作</string>
     <string name="privacy_actions_debug">隐私操作调试</string>
@@ -149,19 +132,13 @@
     <string name="notification_privacy_off">隐私保护已关闭</string>
     <string name="notification_privacy_off_desc">已跳过操作 - 全局隐私已关闭</string>
     <string name="notification_no_permission">无权限</string>
-
-    <!-- ===== 快速设置磁贴状态 ===== -->
     <string name="qs_privacy_on">隐私已开启</string>
     <string name="qs_privacy_off">隐私已关闭</string>
     <string name="qs_tap_to_disable">点击关闭</string>
     <string name="qs_tap_to_enable">点击开启</string>
-
-    <!-- ===== 异常状态 ===== -->
     <string name="status_unknown">未知</string>
     <string name="status_unavailable">不可用</string>
     <string name="status_error">错误</string>
-
-    <!-- Layout hardcoded strings extracted -->
     <string name="donate_label">捐赠 ♥️</string>
     <string name="custom_app_message">需要定制应用吗？\n我可以帮忙：hello@doru.uk</string>
     <string name="created_by_label">作者：</string>
@@ -172,19 +149,12 @@
     <string name="share_logs_action">分享</string>
     <string name="clear_logs_action">清除</string>
     <string name="side_button_support_title">侧键支持（实验性）</string>
-    <string name="side_button_support_desc">启用无障碍服务以支持即时锁屏</string>
-    <string name="enable_side_button_support">启用侧键支持</string>
-    <string name="open_accessibility_settings">打开无障碍设置</string>
     <string name="accessibility_explanation">允许 Privacy Flip 在锁屏完全生效前检测侧键/电源键锁屏操作，即使开启即时锁屏也能启用摄像头和麦克风隐私保护。该服务仅检测锁屏界面的出现，不会读取屏幕内容。</string>
     <string name="extras_title">更多功能</string>
     <string name="extras_subtitle">额外保护</string>
-    <string name="manage_app_exemptions">⚙️ 管理应用豁免</string>
     <string name="delays_title">延迟设置</string>
     <string name="delays_subtitle">配置隐私操作的触发时间</string>
-    <string name="delay_after_lock">锁屏后延迟（秒）</string>
-    <string name="delay_after_unlock">解锁后延迟（秒）</string>
     <string name="debug_notifications_title">调试通知</string>
-    <string name="debug_notifications_desc">为隐私操作显示通知</string>
     <string name="system_requirements_title">系统要求</string>
     <string name="system_requirements_subtitle">隐私控制功能所需</string>
     <string name="privileged_access_title">特权访问</string>
@@ -194,20 +164,14 @@
     <string name="optimization_disabled">优化已禁用</string>
     <string name="disable_battery_opt_desc_bg">禁用电池优化以确保后台稳定运行</string>
     <string name="open_battery_settings_caps">打开电池设置</string>
-    <string name="protection_active">保护已启用</string>
     <string name="root_access_title">Root 权限</string>
     <string name="root_access_subtitle">隐私控制所需</string>
-    <string name="root_available">Root 可用</string>
-    <string name="root_granted">Root 已授权</string>
     <string name="retry">重试</string>
     <string name="permissions_title">权限</string>
     <string name="permissions_subtitle">所需权限状态</string>
     <string name="all_permissions_granted">所有权限均已授予</string>
     <string name="remove_button">移除</string>
     <string name="usage_access_required_title">⚠️ 需要使用情况访问权限</string>
-    <string name="usage_access_required_desc">要检测前台应用，请授予使用情况访问权限。</string>
-    <string name="grant_permission">授予权限</string>
-    <string name="loading_apps">正在加载应用…</string>
     <string name="installed_apps_title">已安装应用</string>
     <string name="select_apps_exempt_desc">选择要从隐私保护中豁免的应用</string>
     <string name="no_user_apps_found">未找到用户应用</string>
@@ -215,7 +179,6 @@
     <string name="privilege_required_title">需要 Root 或 Shizuku</string>
     <string name="privilege_required_desc">Privacy Flip 需要 Root 权限（通过 Magisk）或 Shizuku（适用于未 Root 设备）才能控制隐私功能。</string>
     <string name="disable_battery_opt_desc">禁用电池优化以确保稳定运行</string>
-    <string name="open_battery_settings">打开电池设置</string>
     <string name="background_permission_required_title">需要后台权限</string>
     <string name="background_permission_required_desc">Privacy Flip 需要后台权限来监听锁屏/解锁事件，并自动管理您的隐私设置。</string>
     <string name="grant_background_permission">授予后台权限</string>
@@ -226,11 +189,4 @@
     <string name="screen_lock_actions_subtitle">配置锁屏/解锁时的隐私功能</string>
     <string name="camera_label">摄像头</string>
     <string name="microphone_label">麦克风</string>
-    <string name="only_if_not_in_use">仅在未使用时</string>
-    <string name="disable_on_lock">锁屏时禁用</string>
-    <string name="enable_on_unlock">解锁时启用</string>
-    <string name="only_if_not_connected">仅在未连接时</string>
-    <string name="only_if_not_already_enabled">仅在尚未启用时</string>
-    <string name="enable_on_lock">锁屏时启用</string>
-    <string name="disable_on_unlock">解锁时禁用</string>
 </resources>
