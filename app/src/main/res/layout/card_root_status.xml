@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:text="Root Access"
+                android:text="@string/root_access_title"
                 android:textSize="16sp" android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Required for privacy control"
+            android:text="@string/root_access_subtitle"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="Root Available"
+                    android:text="@string/root_available"
                     android:textSize="14sp" android:textColor="@color/text_primary" />
 
                 <TextView
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="Root Granted"
+                    android:text="@string/root_granted"
                     android:textSize="14sp" android:textColor="@color/text_primary" />
 
                 <TextView
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="8dp"
-                android:text="Retry"
+                android:text="@string/retry"
                 android:visibility="gone" />
 
         </LinearLayout>
