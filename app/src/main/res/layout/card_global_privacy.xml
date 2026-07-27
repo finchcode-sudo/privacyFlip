@@ -47,7 +47,7 @@
                 android:id="@+id/globalPrivacyStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Protection Active"
+                android:text="@string/protection_active"
                 android:textSize="14sp"
                 android:textColor="@color/icon_white"
                 android:layout_marginTop="2dp" />
