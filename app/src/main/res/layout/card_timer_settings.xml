@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:text="Delays"
+                android:text="@string/delays_title"
                 android:textSize="16sp" android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Configure timing for privacy actions"
+            android:text="@string/delays_subtitle"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -65,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Delay after Lock (sec)"
+                    android:text="@string/delay_after_lock"
                     android:textSize="14sp"
                     android:textColor="@color/text_primary" />
 
@@ -113,7 +113,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Delay after Unlock (sec)"
+                    android:text="@string/delay_after_unlock"
                     android:textSize="14sp"
                     android:textColor="@color/text_primary" />
 
@@ -173,14 +173,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Debug Notifications"
+                    android:text="@string/debug_notifications_title"
                     android:textSize="14sp"
                     android:textColor="@color/text_primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Show notifications for privacy actions"
+                    android:text="@string/debug_notifications_desc"
                     android:textSize="11sp"
                     android:textColor="@color/text_secondary" />
 
