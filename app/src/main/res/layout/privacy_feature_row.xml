@@ -60,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Disable on lock"
+            android:text="@string/disable_on_lock"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -94,7 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Only if not connected"
+            android:text="@string/only_if_not_connected"
             android:textSize="11sp"
             android:textColor="@color/text_secondary"
             android:clickable="true"
@@ -118,7 +118,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Enable on unlock"
+            android:text="@string/enable_on_unlock"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -152,7 +152,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Only if not already enabled"
+            android:text="@string/only_if_not_already_enabled"
             android:textSize="11sp"
             android:textColor="@color/text_secondary"
             android:clickable="true"
