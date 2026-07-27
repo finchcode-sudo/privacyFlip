@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:text="Screen Lock/Unlock Actions"
+                android:text="@string/screen_lock_actions_title"
                 android:textSize="16sp" android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Configure privacy features for lock/unlock"
+            android:text="@string/screen_lock_actions_subtitle"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="Camera"
+                    android:text="@string/camera_label"
                     android:textSize="14sp"
                     android:textColor="@color/text_primary"
                     android:textStyle="bold" />
@@ -172,7 +172,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Disable on lock"
+                    android:text="@string/disable_on_lock"
                     android:textSize="12sp"
                     android:textColor="@color/text_secondary" />
 
@@ -198,7 +198,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Enable on unlock"
+                    android:text="@string/enable_on_unlock"
                     android:textSize="12sp"
                     android:textColor="@color/text_secondary" />
 
@@ -243,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="Microphone"
+                    android:text="@string/microphone_label"
                     android:textSize="14sp"
                     android:textColor="@color/text_primary"
                     android:textStyle="bold" />
@@ -274,7 +274,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Disable on lock"
+                    android:text="@string/disable_on_lock"
                     android:textSize="12sp"
                     android:textColor="@color/text_secondary" />
 
@@ -307,7 +307,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Only if not in use"
+                    android:text="@string/only_if_not_in_use"
                     android:textSize="11sp"
                     android:textColor="@color/text_secondary"
                     android:clickable="true"
@@ -331,7 +331,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Enable on unlock"
+                    android:text="@string/enable_on_unlock"
                     android:textSize="12sp"
                     android:textColor="@color/text_secondary" />
 
