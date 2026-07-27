@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:text="Permissions"
+                android:text="@string/permissions_title"
                 android:textSize="16sp" android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Required permissions status"
+            android:text="@string/permissions_subtitle"
             android:textSize="12sp"
             android:textColor="@color/text_secondary" />
 
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="All permissions granted"
+            android:text="@string/all_permissions_granted"
             android:textSize="14sp" android:textColor="@color/text_primary" />
 
     </LinearLayout>
