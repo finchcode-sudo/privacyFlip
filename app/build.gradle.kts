@@ -11,7 +11,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "io.github.dorumrr.privacyflip"
+        applicationId = "io.github.dorumrr.privacyflip.selfbuild"
         minSdk = 24
         targetSdk = 35
         versionCode = 23
