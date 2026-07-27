@@ -19,7 +19,7 @@
             android:id="@+id/privilegeErrorTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Root or Shizuku Required"
+            android:text="@string/privilege_required_title"
             android:textSize="16sp"
             android:textColor="@color/icon_white"
             android:textStyle="bold"
@@ -30,7 +30,7 @@
             android:id="@+id/privilegeErrorDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Privacy Flip requires root access (via Magisk) or Shizuku (for non-rooted devices) to control privacy features."
+            android:text="@string/privilege_required_desc"
             android:textSize="12sp"
             android:textColor="@color/icon_white" />
 
