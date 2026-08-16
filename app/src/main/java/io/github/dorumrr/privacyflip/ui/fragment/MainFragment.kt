@@ -248,7 +248,7 @@ class MainFragment : Fragment() {
             setupProtectionModeFeature(
                 batterySaverSettings,
                 R.drawable.ic_battery,
-                "Battery Saver",
+                "电池保护",
                 PrivacyFeature.BATTERY_SAVER
             )
 
@@ -581,7 +581,7 @@ class MainFragment : Fragment() {
 
     private fun showAirplaneModeInfoDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Airplane Mode (Experimental)")
+            .setTitle("飞行模式(实验性)")
             .setMessage(getString(R.string.airplane_mode_info_message))
             .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
             .show()
@@ -589,7 +589,7 @@ class MainFragment : Fragment() {
 
     private fun showBatterySaverInfoDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Battery Saver Info")
+            .setTitle("省电模式信息")
             .setMessage(getString(R.string.battery_saver_info_message))
             .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
             .show()
