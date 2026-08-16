@@ -248,7 +248,7 @@ class MainFragment : Fragment() {
             setupProtectionModeFeature(
                 batterySaverSettings,
                 R.drawable.ic_battery,
-                "电池保护",
+                "省电模式",
                 PrivacyFeature.BATTERY_SAVER
             )
 
