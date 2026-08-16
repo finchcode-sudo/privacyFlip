@@ -24,9 +24,9 @@
     <!-- ===== 异常状态 ===== -->
     <!-- Layout hardcoded strings extracted -->
 
-    <string name="app_name">隐私开关</string>
-    <string name="tile_privacy_switch">隐私开关</string>
-    <string name="widget_name">隐私开关</string>
+    <string name="app_name">PrivacyFlip</string>
+    <string name="tile_privacy_switch">PrivacyFlip </string>
+    <string name="widget_name">PrivacyFlip </string>
     <string name="widget_description">快速切换隐私保护</string>
     <string name="widget_privacy_on">已开启</string>
     <string name="widget_privacy_off">已关闭</string>
