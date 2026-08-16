@@ -742,7 +742,7 @@ class MainFragment : Fragment() {
                 // Update description text based on privilege method
                 privilegeAccessDescription.text = when (privilegeMethod) {
                     io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.SHIZUKU ->
-                        "Click 'Grant Shizuku Permission' to try again or uninstall and reinstall the app, then grant permission at first start."
+                        "点击“授予 Shizuku 权限”重试，或者卸载并重新安装应用程序，然后在首次启动时授予权限。"
                     io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.DHIZUKU ->
                         "Click 'Grant Dhizuku Permission' to try again or uninstall and reinstall the app, then grant permission at first start."
                     io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.ROOT ->
@@ -770,10 +770,10 @@ class MainFragment : Fragment() {
                         rootActionsContainer.visibility = View.VISIBLE
 
                         grantRootButton.text = when (privilegeMethod) {
-                            io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.SHIZUKU -> "GRANT SHIZUKU PERMISSION"
-                            io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.DHIZUKU -> "GRANT DHIZUKU PERMISSION"
-                            io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.SUI -> "GRANT SUI PERMISSION"
-                            io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE -> "INSTALL DHIZUKU/SHIZUKU OR ROOT DEVICE"
+                            io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.SHIZUKU -> "授予shizuku权限"
+                            io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.DHIZUKU -> "授予shizuku权限"
+                            io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.SUI -> "授予sui权限"
+                            io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE -> "安装shizuku/dhizuku或者根设备"
                             else -> "GRANT PERMISSION"
                         }
 
