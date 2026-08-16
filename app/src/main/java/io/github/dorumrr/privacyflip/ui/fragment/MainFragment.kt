@@ -448,7 +448,7 @@ class MainFragment : Fragment() {
         )
 
         updatePrivacyFeatureSetting(
-            binding.screenLockCard.bluetoothSettings,
+            binding.screenLockCard.bluetActivegs,
             uiState.screenLockConfig.bluetoothDisableOnLock,
             uiState.screenLockConfig.bluetoothEnableOnUnlock,
             uiState.screenLockConfig.bluetoothOnlyIfUnused,
@@ -662,7 +662,7 @@ class MainFragment : Fragment() {
                 globalPrivacyStatus.setTextColor(
                     androidx.core.content.ContextCompat.getColor(requireContext(), R.color.icon_white)
                 )
-                globalPrivacyStatus.text = "Protection Active"
+                globalPrivacyStatus.text = "保护已激活"
 
                 // Switch colors: Blue when ON
                 globalPrivacySwitch.thumbTintList = android.content.res.ColorStateList.valueOf(
