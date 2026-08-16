@@ -685,7 +685,7 @@ class MainFragment : Fragment() {
                 globalPrivacyStatus.setTextColor(
                     androidx.core.content.ContextCompat.getColor(requireContext(), R.color.text_secondary)
                 )
-                globalPrivacyStatus.text = "Protection Inactive"
+                globalPrivacyStatus.text = "保护失效"
 
                 // Switch colors: Red when OFF
                 globalPrivacySwitch.thumbTintList = android.content.res.ColorStateList.valueOf(
@@ -801,7 +801,7 @@ class MainFragment : Fragment() {
 
             // Update battery optimization section
             if (isBatteryOptimizationDisabled) {
-                batteryStatusText.text = "Optimization disabled"
+                batteryStatusText.text = "优化已禁用"
                 batteryActionsContainer.visibility = View.GONE
             } else {
                 batteryStatusText.text = "Optimization enabled"
