@@ -662,7 +662,7 @@ class MainFragment : Fragment() {
                 globalPrivacyStatus.setTextColor(
                     androidx.core.content.ContextCompat.getColor(requireContext(), R.color.icon_white)
                 )
-                globalPrivacyStatus.text = "保护已激活"
+                globalPrivacyStatus.text = "保护已生效"
 
                 // Switch colors: Blue when ON
                 globalPrivacySwitch.thumbTintList = android.content.res.ColorStateList.valueOf(
