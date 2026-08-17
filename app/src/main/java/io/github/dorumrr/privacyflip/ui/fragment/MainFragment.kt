@@ -448,7 +448,7 @@ class MainFragment : Fragment() {
         )
 
         updatePrivacyFeatureSetting(
-            binding.screenLockCard.bluetActivegs,
+            binding.screenLockCard.bluetoothSettings,
             uiState.screenLockConfig.bluetoothDisableOnLock,
             uiState.screenLockConfig.bluetoothEnableOnUnlock,
             uiState.screenLockConfig.bluetoothOnlyIfUnused,
