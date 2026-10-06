@@ -1,0 +1,8 @@
+• Automatic privacy control on screen lock/unlock
+• Background service for persistent monitoring
+• Material 3 design with dark theme support
+• Quick Settings tile integration
+• Controls Wi-Fi, Bluetooth, mobile data, and location
+• Configurable timing delays
+• No tracking or analytics
+• Requires root access and Android 5.0+

@@ -1,0 +1,3 @@
+• Implemented NFC Privacy Control
+• Full Android 15 (API 35) support
+• Dark theme, automatically adapts to system settings

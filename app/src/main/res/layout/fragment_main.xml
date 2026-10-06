@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Privilege Error Alert (shown when no privilege or permission denied) -->
+        <include
+            android:id="@+id/privilegeErrorAlert"
+            layout="@layout/card_privilege_error_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <!-- System Requirements Card (always visible at top) -->
+        <include
+            android:id="@+id/systemRequirementsCard"
+            layout="@layout/card_system_requirements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <!-- Global Privacy Status Card (always visible) -->
+        <include
+            android:id="@+id/globalPrivacyCard"
+            layout="@layout/card_global_privacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Loading Indicator -->
+        <ProgressBar
+            android:id="@+id/loadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <!-- Main Content Container -->
+        <LinearLayout
+            android:id="@+id/mainContentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Screen Lock Config Card -->
+            <include
+                android:id="@+id/screenLockCard"
+                layout="@layout/card_screen_lock_config"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Extras Card (Airplane Mode, Battery Saver) -->
+            <include
+                android:id="@+id/extrasCard"
+                layout="@layout/card_extras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Timer Settings Card -->
+            <include
+                android:id="@+id/timerCard"
+                layout="@layout/card_timer_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Accessibility Service Card (Experimental) -->
+            <include
+                android:id="@+id/accessibilityServiceCard"
+                layout="@layout/card_accessibility_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone" />
+
+            <!-- Background Permission Error Card (shown only when permission missing) -->
+            <include
+                android:id="@+id/backgroundPermissionErrorCard"
+                layout="@layout/card_background_permission_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Universal Credits Footer -->
+        <include
+            android:id="@+id/creditsFooter"
+            layout="@layout/credits_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

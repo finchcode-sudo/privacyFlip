@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Privacy Flip</string>
+
+    <!-- Quick Settings Tiles -->
+    <string name="tile_privacy_switch">Privacy Flip</string>
+
+    <!-- Widget -->
+    <string name="widget_name">Privacy Flip</string>
+    <string name="widget_description">Quick privacy toggle</string>
+    <string name="widget_privacy_on">ACTIVE</string>
+    <string name="widget_privacy_off">OFF</string>
+
+    <!-- Camera & Microphone Info -->
+    <string name="lock_delay_warning_message">Android prevents changing camera or microphone privacy while locked. For this reason, camera and microphone ignore custom lock/unlock delays and trigger immediately (if they are not in use).\n\nTo ensure automatic disabling on lock:\n\n1. Go to Settings → Security → Screen Lock\n2. Tap the gear icon ⚙️ next to your lock method\n3. Set \"Automatically lock\" to 5 seconds or more\n4. Disable \"Power button instantly locks\" (if present)</string>
+
+    <!-- Airplane Mode Info -->
+    <string name="airplane_mode_info_message">Enabling Airplane Mode will disable WiFi, Bluetooth, Mobile Data, and NFC regardless of their individual settings.\n\nUse this for maximum privacy when the device is locked.</string>
+
+    <!-- Battery Saver Info -->
+    <string name="battery_saver_info_message">Battery Saver reduces background activity and may limit some app features.\n\nIt does not directly disable radios (WiFi, Bluetooth, etc.) but can affect sync, location accuracy, and background processing.\n\nUseful for extending battery life when locked for long periods.</string>
+
+    <!-- Protection Mode Options -->
+    <string name="only_if_not_manually_set">Only if not manually set</string>
+
+    <!-- Debug Logs -->
+    <string name="debug_logs">Debug Logs</string>
+    <string name="debug_logs_description">Log privacy actions to file</string>
+    <string name="view_logs">View Logs</string>
+    <string name="share_logs">Share</string>
+    <string name="clear_logs">Clear</string>
+    <string name="no_logs_to_share">No logs to share</string>
+    <string name="no_logs_to_view">No logs available</string>
+    <string name="logs_cleared">Logs cleared</string>
+    <string name="debug_logs_title">Debug Logs</string>
+
+    <!-- Footer -->
+    <string name="open_source_message">Free, open source, no ads, for your privacy.\nConsider donating to support ongoing development.</string>
+
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_label">Privacy Flip - Side Button Support</string>
+    <string name="accessibility_service_description">Allows Privacy Flip to detect side/power button locks earlier, enabling camera and microphone privacy features to work with instant-lock. This service does not read screen content or passwords. It only detects lock screen appearance to trigger privacy actions before keyguard fully engages.</string>
+
+    <!-- Layout hardcoded strings extracted -->
+    <string name="donate_label">Donate ♥️</string>
+    <string name="custom_app_message">Do you need a custom app?\nI can help: hello@doru.uk</string>
+    <string name="created_by_label">Created by </string>
+    <string name="author_name">Doru Moraru</string>
+    <string name="back_cd">Back</string>
+    <string name="refresh">Refresh</string>
+    <string name="bottom">Bottom</string>
+    <string name="share_logs_action">Share</string>
+    <string name="clear_logs_action">Clear</string>
+    <string name="side_button_support_title">Side Button Support (Experimental)</string>
+    <string name="side_button_support_desc">Enable Accessibility Service for instant-lock support</string>
+    <string name="enable_side_button_support">Enable Side Button Support</string>
+    <string name="open_accessibility_settings">Open Accessibility Settings</string>
+    <string name="accessibility_explanation">Allows Privacy Flip to detect side/power button locks before keyguard fully engages. Enables camera and microphone privacy even with instant-lock. This service only detects lock screen appearance and does not read screen content.</string>
+    <string name="extras_title">Extras</string>
+    <string name="extras_subtitle">Additional protection</string>
+    <string name="manage_app_exemptions">⚙️ Manage App Exemptions</string>
+    <string name="delays_title">Delays</string>
+    <string name="delays_subtitle">Configure timing for privacy actions</string>
+    <string name="delay_after_lock">Delay after Lock (sec)</string>
+    <string name="delay_after_unlock">Delay after Unlock (sec)</string>
+    <string name="debug_notifications_title">Debug Notifications</string>
+    <string name="debug_notifications_desc">Show notifications for privacy actions</string>
+    <string name="system_requirements_title">System Requirements</string>
+    <string name="system_requirements_subtitle">Required for privacy control functionality</string>
+    <string name="privileged_access_title">Privileged Access</string>
+    <string name="privileged_access_subtitle">Required for system-level privacy controls</string>
+    <string name="grant_root">Grant Shizuku Permission</string>
+    <string name="battery_optimization_title">Battery Optimization</string>
+    <string name="optimization_disabled">Optimization disabled</string>
+    <string name="disable_battery_opt_desc_bg">Disable battery optimization for reliable background operation</string>
+    <string name="open_battery_settings_caps">OPEN BATTERY SETTINGS</string>
+    <string name="protection_active">Protection Active</string>
+    <string name="root_access_title">Shizuku Access</string>
+    <string name="root_access_subtitle">Required for privacy control</string>
+    <string name="root_available">Shizuku Available</string>
+    <string name="root_granted">Shizuku Granted</string>
+    <string name="retry">Retry</string>
+    <string name="permissions_title">Permissions</string>
+    <string name="permissions_subtitle">Required permissions status</string>
+    <string name="all_permissions_granted">All permissions granted</string>
+    <string name="remove_button">Remove</string>
+    <string name="usage_access_required_title">⚠️ Usage Access Permission Required</string>
+    <string name="usage_access_required_desc">To detect foreground apps, grant Usage Access permission.</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="loading_apps">Loading apps...</string>
+    <string name="installed_apps_title">Installed Apps</string>
+    <string name="select_apps_exempt_desc">Select apps to exempt from privacy protection</string>
+    <string name="no_user_apps_found">No user apps found</string>
+    <string name="exempt_apps_explanation">When an exempt app is in the foreground, PrivacyFlip will not disable any features.</string>
+    <string name="privilege_required_title">Shizuku Required</string>
+    <string name="privilege_required_desc">Privacy Flip requires Shizuku to control privacy features.</string>
+    <string name="disable_battery_opt_desc">Disable battery optimization for reliable operation</string>
+    <string name="open_battery_settings">Open Battery Settings</string>
+    <string name="background_permission_required_title">Background Permission Required</string>
+    <string name="background_permission_required_desc">Privacy Flip needs background permission to monitor screen lock/unlock events and automatically manage your privacy settings.</string>
+    <string name="grant_background_permission">Grant Background Permission</string>
+    <string name="app_icon_cd">App icon</string>
+    <string name="experimental_features_title">Experimental Features</string>
+    <string name="experimental_features_subtitle">Camera and microphone privacy controls</string>
+    <string name="screen_lock_actions_title">Screen Lock/Unlock Actions</string>
+    <string name="screen_lock_actions_subtitle">Configure privacy features for lock/unlock</string>
+    <string name="camera_label">Camera</string>
+    <string name="microphone_label">Microphone</string>
+    <string name="only_if_not_in_use">Only if not in use</string>
+    <string name="disable_on_lock">Disable on lock</string>
+    <string name="enable_on_unlock">Enable on unlock</string>
+    <string name="only_if_not_connected">Only if not connected</string>
+    <string name="only_if_not_already_enabled">Only if not already enabled</string>
+    <string name="enable_on_lock">Enable on lock</string>
+    <string name="disable_on_unlock">Disable on unlock</string>
+</resources>

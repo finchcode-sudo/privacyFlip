@@ -1,0 +1,5 @@
+• Background service as always on
+• Refactor code structure
+• Show error card when permissions are missing
+• Updated icon assets for all screen densities
+• Performance improvements and bug fixes
