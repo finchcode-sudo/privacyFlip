@@ -7,6 +7,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import io.github.dorumrr.privacyflip.util.DebugLogHelper
 import io.github.dorumrr.privacyflip.util.PreferenceManager
 import io.github.dorumrr.privacyflip.worker.PrivacyActionWorker
 
@@ -60,10 +61,20 @@ class PrivacyAccessibilityService : AccessibilityService() {
             }
             
             val className = event.className?.toString() ?: ""
-            
+            val packageName = event.packageName?.toString() ?: ""
+
+            // Diagnostic: record lock-related windows in the debug log file
+            if (className.contains("lock", ignoreCase = true) ||
+                className.contains("keyguard", ignoreCase = true) ||
+                packageName == "com.android.systemui") {
+                DebugLogHelper.getInstance(applicationContext).i(
+                    TAG, "Window event: pkg=$packageName class=$className matched=${isLockScreenWindow(packageName, className)}"
+                )
+            }
+
             // Detect if this is a lock screen window
-            if (isLockScreenClass(className)) {
-                Log.d(TAG, "🔒 Lock screen detected via Accessibility (class: $className)")
+            if (isLockScreenWindow(packageName, className)) {
+                Log.d(TAG, "🔒 Lock screen detected via Accessibility (pkg: $packageName, class: $className)")
                 triggerEarlyPrivacyActions()
             }
             
@@ -82,9 +93,13 @@ class PrivacyAccessibilityService : AccessibilityService() {
      * - com.android.systemui.keyguard.KeyguardViewMediator
      * - Various manufacturer-specific lock screen classes
      */
-    private fun isLockScreenClass(className: String): Boolean {
-        return className.contains("StatusBar", ignoreCase = true) ||
-               className.contains("Keyguard", ignoreCase = true) ||
+    private fun isLockScreenWindow(packageName: String, className: String): Boolean {
+        // Only real system UI / keyguard windows count. Without the package check, pages such as
+        // "Lock screen settings" (class name contains "LockScreen") were mistaken for the lock screen.
+        val isSystemUi = packageName == "com.android.systemui" ||
+            packageName.contains("keyguard", ignoreCase = true)
+        if (!isSystemUi) return false
+        return className.contains("Keyguard", ignoreCase = true) ||
                className.contains("LockScreen", ignoreCase = true)
     }
 

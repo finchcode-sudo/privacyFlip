@@ -23,6 +23,7 @@ import io.github.dorumrr.privacyflip.MainActivity
 import io.github.dorumrr.privacyflip.R
 import io.github.dorumrr.privacyflip.receiver.ScreenStateReceiver
 import io.github.dorumrr.privacyflip.util.Constants
+import io.github.dorumrr.privacyflip.util.DisplayStateMonitor
 import io.github.dorumrr.privacyflip.util.ScreenStateReceiverManager
 import io.github.dorumrr.privacyflip.worker.PrivacyActionWorker
 
@@ -58,6 +59,7 @@ class PrivacyMonitorService : Service() {
     }
     
     private var screenStateReceiver: ScreenStateReceiver? = null
+    private var displayStateMonitor: DisplayStateMonitor? = null
     
     override fun onCreate() {
         super.onCreate()
@@ -72,6 +74,7 @@ class PrivacyMonitorService : Service() {
                 startForeground(Constants.ServiceNotification.NOTIFICATION_ID, createNotification())
             }
             registerScreenStateReceiver()
+            displayStateMonitor = DisplayStateMonitor(applicationContext).also { it.start() }
 
             // Apply initial privacy state based on current screen lock status
             applyInitialPrivacyState()
@@ -95,6 +98,8 @@ class PrivacyMonitorService : Service() {
         Log.d(TAG, "Privacy Monitor Service destroyed")
 
         unregisterScreenStateReceiver()
+        displayStateMonitor?.stop()
+        displayStateMonitor = null
     }
     
     override fun onBind(intent: Intent?): IBinder? {
