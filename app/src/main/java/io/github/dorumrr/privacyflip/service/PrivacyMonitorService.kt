@@ -64,7 +64,7 @@ class PrivacyMonitorService : Service() {
     override fun onCreate() {
         super.onCreate()
         isServiceRunning = true
-        Log.i(TAG, "🚀 Privacy Monitor Service created")
+        Log.i(TAG, "🚀 创建隐私监控服务")
 
         try {
             createNotificationChannel()
@@ -79,7 +79,7 @@ class PrivacyMonitorService : Service() {
             // Apply initial privacy state based on current screen lock status
             applyInitialPrivacyState()
 
-            Log.i(TAG, "✅ Privacy Monitor Service initialized successfully")
+            Log.i(TAG, "✅ 隐私监控服务初始化成功")
         } catch (e: Exception) {
             Log.e(TAG, "❌ Failed to initialize Privacy Monitor Service", e)
             isServiceRunning = false
@@ -95,7 +95,7 @@ class PrivacyMonitorService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         isServiceRunning = false
-        Log.d(TAG, "Privacy Monitor Service destroyed")
+        Log.d(TAG, "隐私监控服务已销毁")
 
         unregisterScreenStateReceiver()
         displayStateMonitor?.stop()
@@ -113,7 +113,7 @@ class PrivacyMonitorService : Service() {
                 "Privacy Monitor",
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = "Monitors screen state for privacy actions"
+                description = "监控屏幕状态以执行隐私操作"
                 setShowBadge(false)
             }
 
@@ -132,7 +132,7 @@ class PrivacyMonitorService : Service() {
         return NotificationCompat.Builder(this, Constants.ServiceNotification.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_privacy_shield)
             .setContentTitle("Privacy Flip Active")
-            .setContentText("Monitoring screen state for privacy actions")
+            .setContentText("正在监控屏幕状态以执行隐私操作")
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -157,7 +157,7 @@ class PrivacyMonitorService : Service() {
     private fun applyInitialPrivacyState() {
         try {
             val isScreenLocked = isScreenCurrentlyLocked()
-            val reason = "Service Initialization"
+            val reason = "服务初始化"
 
             Log.i(TAG, "🔍 Checking initial screen state: ${if (isScreenLocked) "LOCKED" else "UNLOCKED"}")
 
@@ -187,7 +187,7 @@ class PrivacyMonitorService : Service() {
             isKeyguardLocked || !isScreenOn
 
         } catch (e: Exception) {
-            Log.e(TAG, "Error checking screen lock state", e)
+            Log.e(TAG, "检查屏幕锁定状态时出错", e)
             // Default to unlocked if we can't determine state
             false
         }
@@ -223,7 +223,7 @@ class PrivacyMonitorService : Service() {
             Log.i(TAG, "🔄 Initial privacy action enqueued (unique: $workName): ${if (isUnlocking) "unlock" else "lock"} actions (deviceLocked=$isDeviceLocked)")
 
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to trigger initial privacy action", e)
+            Log.e(TAG, "触发初始隐私操作失败", e)
         }
     }
 }
