@@ -126,8 +126,8 @@ class PrivacyMonitorService : Service() {
         
         return NotificationCompat.Builder(this, Constants.ServiceNotification.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_privacy_shield)
-            .setContentTitle("Privacy Flip Active")
-            .setContentText("Monitoring screen state for privacy actions")
+            .setContentTitle("Privacy Flip 生效中")
+            .setContentText("监控屏幕状态以执行隐私相关操作")
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -182,7 +182,7 @@ class PrivacyMonitorService : Service() {
             isKeyguardLocked || !isScreenOn
 
         } catch (e: Exception) {
-            Log.e(TAG, "Error checking screen lock state", e)
+            Log.e(TAG, "检查屏幕锁定状态时出错", e)
             // Default to unlocked if we can't determine state
             false
         }
