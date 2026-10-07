@@ -8,7 +8,7 @@ import io.github.dorumrr.privacyflip.util.StatusParsingUtils
 class LocationToggle(rootManager: RootManager) : BasePrivacyToggle(rootManager) {
 
     override val feature = PrivacyFeature.LOCATION
-    override val featureName = "Location Services"
+    override val featureName = "位置服务"
 
     override val enableCommands = getEnableCommandsForApi()
     override val disableCommands = getDisableCommandsForApi()
@@ -53,15 +53,15 @@ class LocationToggle(rootManager: RootManager) : BasePrivacyToggle(rootManager) 
             Build.VERSION.SDK_INT >= 19 -> {
                 listOf(
                     CommandSet("settings put secure location_providers_allowed ''", 
-                              description = "Clear location providers"),
+                              description = "清除定位提供程序"),
                     CommandSet("settings put secure location_mode 0", description = "Disable location")
                 )
             }
             else -> {
                 listOf(
-                    CommandSet("settings put secure location_providers_allowed -gps", 
-                              description = "Disable GPS provider"),
-                    CommandSet("settings put secure location_providers_allowed -network", 
+                    CommandSet("禁用 GPS 定位提供程序", 
+                              description = "禁用 GPS 提供程序"),
+                    CommandSet("禁用网络定位", 
                               description = "Disable network provider")
                 )
             }
@@ -71,8 +71,8 @@ class LocationToggle(rootManager: RootManager) : BasePrivacyToggle(rootManager) 
     private fun getStatusCommandsForApi(): List<CommandSet> {
         return listOf(
             CommandSet("settings get secure location_mode", description = "Check location mode"),
-            CommandSet("settings get secure location_providers_allowed", description = "Check providers"),
-            CommandSet("dumpsys location | grep 'Location'", description = "Dumpsys method")
+            CommandSet("获取允许的定位提供程序", description = "检查提供程序"),
+            CommandSet("dumpsys location | grep 'Location'", description = "Dumpsys 方法")
         )
     }
 
