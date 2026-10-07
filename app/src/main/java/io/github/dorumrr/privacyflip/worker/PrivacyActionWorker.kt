@@ -60,7 +60,7 @@ class PrivacyActionWorker(
     }
 
     private fun showToast(message: String) {
-        // Only show toast if debug notifications are enabled
+        // 仅在启用调试通知时显示 Toast
         if (!preferenceManager.debugNotificationsEnabled) {
             return
         }
@@ -70,10 +70,10 @@ class PrivacyActionWorker(
     }
 
     /**
-     * Checks if the screen is currently locked.
-     * Used to validate screen state after delays to prevent executing stale actions.
+     * 检查屏幕当前是否已锁定。
+     * 用于在延迟后验证屏幕状态，防止执行过期的操作。
      *
-     * @return true if screen is locked, false if unlocked
+     * @return 如果屏幕已锁定则返回 true，已解锁则返回 false
      */
     private fun isScreenCurrentlyLocked(): Boolean {
         return try {
@@ -83,11 +83,11 @@ class PrivacyActionWorker(
             val isKeyguardLocked = keyguardManager.isKeyguardLocked
             val isScreenOn = powerManager.isInteractive
 
-            // Screen is considered locked if keyguard is active OR screen is off
+            // 如果键盘锁处于活动状态 或 屏幕已关闭，则视为已锁定
             isKeyguardLocked || !isScreenOn
         } catch (e: Exception) {
-            Log.e(TAG, "Error checking screen lock state", e)
-            false // Default to unlocked if we can't determine state
+            Log.e(TAG, "检查屏幕锁定状态时出错", e)
+            false // 如果无法确定状态，则默认视为未锁定
         }
     }
     
@@ -98,17 +98,17 @@ class PrivacyActionWorker(
             val trigger = inputData.getString("trigger") ?: "unknown"
             val reason = inputData.getString("reason") ?: "Unknown"
 
-            logDebug("🔒 Executing privacy actions: locking=$isLocking, deviceLocked=$isDeviceLocked, trigger=$trigger, reason=$reason")
+            logDebug("🔒 正在执行隐私操作: locking=$isLocking, deviceLocked=$isDeviceLocked, trigger=$trigger, reason=$reason")
 
             val rootManager = RootManager.getInstance(Unit)
             rootManager.initialize(applicationContext)
 
-            // Check if privilege is granted (works for Root, Dhizuku, Shizuku, and Sui)
+            // 检查是否已授予特权（适用于 Root、Dhizuku、Shizuku 和 Sui）
             val hasPrivilege = rootManager.isRootGranted()
 
             if (!hasPrivilege) {
-                logWarning("Privilege permission not granted - cannot execute privacy actions")
-                logWarning("User must grant permission from the UI before privacy actions can be executed")
+                logWarning("未授予特权权限 - 无法执行隐私操作")
+                logWarning("用户必须先从 UI 授予权限才能执行隐私操作")
                 debugNotifier.notifyNoPrivilege()
                 return Result.failure()
             }
@@ -120,12 +120,12 @@ class PrivacyActionWorker(
 
             val isGlobalPrivacyEnabled = preferenceManager.isGlobalPrivacyEnabled
             if (!isGlobalPrivacyEnabled) {
-                logDebug("🚫 Global privacy is disabled - skipping all privacy actions")
+                logDebug("🚫 全局隐私已禁用 - 跳过所有隐私操作")
                 debugNotifier.notifyGlobalPrivacyDisabled()
                 return Result.success()
             }
 
-            // Check if any exempt app is in foreground
+            // 检查是否有任何豁免应用在前台
             val exemptApps = preferenceManager.getExemptApps()
             val foregroundExemptApp = if (exemptApps.isNotEmpty()) {
                 foregroundAppDetector.getFirstForegroundApp(exemptApps)
@@ -134,8 +134,8 @@ class PrivacyActionWorker(
             }
 
             if (foregroundExemptApp != null) {
-                logDebug("🛡️ Exempt app '$foregroundExemptApp' is in foreground - skipping ALL privacy actions")
-                debugNotifier.notifyFeatureSkipped("All features", "exempt app in foreground: $foregroundExemptApp")
+                logDebug("🛡️ 豁免应用 '$foregroundExemptApp' 在前台 - 跳过所有隐私操作")
+                debugNotifier.notifyFeatureSkipped("所有功能", "前台有豁免应用: $foregroundExemptApp")
                 return Result.success()
             }
 
@@ -143,33 +143,33 @@ class PrivacyActionWorker(
                 val featuresToDisable = configManager.getFeaturesToDisableOnLock()
 
                 if (featuresToDisable.isNotEmpty()) {
-                    logDebug("Disabling features on lock: ${featuresToDisable.map { it.displayName }}")
+                    logDebug("锁屏时禁用功能: ${featuresToDisable.map { it.displayName }}")
 
-                    // Filter features based on "only if unused/not connected" setting
+                    // 根据“仅在未使用/未连接时”设置过滤功能
                     val skippedFeatures = mutableListOf<String>()
                     val filteredFeatures = featuresToDisable.filter { feature ->
                         val onlyIfUnused = preferenceManager.getFeatureOnlyIfUnused(feature)
                         if (!onlyIfUnused) {
-                            true // Always disable if "only if unused" is not enabled
+                            true // 如果未启用“仅在未使用时”，则始终禁用
                         } else {
-                            // Check if feature is in use
+                            // 检查功能是否正在使用中
                             val inUse = connectionChecker.isFeatureInUse(feature)
                             if (inUse) {
-                                logDebug("⏸️ ${feature.displayName} is in use - skipping disable (onlyIfUnused=true)")
+                                logDebug("⏸️ ${feature.displayName} 正在使用中 - 跳过禁用 (onlyIfUnused=true)")
                                 skippedFeatures.add(feature.displayName)
-                                debugNotifier.notifyFeatureSkipped(feature.displayName, "in use/connected")
+                                debugNotifier.notifyFeatureSkipped(feature.displayName, "正在使用中/已连接")
                             }
-                            !inUse // Only include if NOT in use
+                            !inUse // 仅在未使用时包含
                         }
                     }
 
-                    logDebug("Features to disable after filtering: ${filteredFeatures.map { it.displayName }}")
+                    logDebug("过滤后要禁用的功能: ${filteredFeatures.map { it.displayName }}")
 
-                    // Split features into three groups:
-                    // 1. Camera/Microphone - must be disabled IMMEDIATELY (before device locks)
-                    //    because Android blocks changing sensor privacy while locked
-                    // 2. Protection modes (Airplane Mode, Battery Saver) - must be ENABLED (not disabled)
-                    // 3. Other regular features - disabled after the configured delay
+                    // 将功能分为三组：
+                    // 1. 相机/麦克风 - 必须立即禁用（在设备锁定之前）
+                    //    因为 Android 在锁定时会阻止更改传感器隐私
+                    // 2. 保护模式（飞行模式、省电模式）- 必须启用（而非禁用）
+                    // 3. 其他常规功能 - 在配置的延迟后禁用
                     val sensorFeatures = filteredFeatures.filter {
                         it == PrivacyFeature.CAMERA || it == PrivacyFeature.MICROPHONE
                     }
@@ -181,138 +181,138 @@ class PrivacyActionWorker(
                         it !in PrivacyFeature.getSystemModeFeatures()
                     }
 
-                    // Disable camera/microphone with stabilization delay
-                    // The 75ms delay prevents race condition where keyguard engages during command execution
+                    // 禁用相机/麦克风，并增加稳定延迟
+                    // 75毫秒的延迟可防止键盘锁在命令执行期间介入的竞态条件
                     if (sensorFeatures.isNotEmpty()) {
                         if (!isDeviceLocked) {
-                            // Add stabilization delay for keyguard to fully engage
-                            // This prevents race condition where keyguard locks during command execution
-                            logDebug("⏱️ Waiting 75ms for keyguard stabilization before disabling sensors: ${sensorFeatures.map { it.displayName }}")
-                            delay(75) // Small delay to let keyguard fully engage
+                            // 为键盘锁完全介入增加稳定延迟
+                            // 这防止了键盘锁在命令执行期间锁定的竞态条件
+                            logDebug("⏱️ 等待 75 毫秒以便键盘锁稳定，然后再禁用传感器: ${sensorFeatures.map { it.displayName }}")
+                            delay(75) // 小延迟让键盘锁完全介入
                             
-                            // CRITICAL: Double-check lock state after stabilization
+                            // 关键：稳定后再次检查锁定状态
                             val isNowLocked = isScreenCurrentlyLocked()
                             
                             if (!isNowLocked) {
-                                // Safe to proceed - keyguard hasn't engaged
-                                logDebug("✅ Keyguard stable, device still unlocked - disabling sensors: ${sensorFeatures.map { it.displayName }}")
+                                // 可以安全继续 - 键盘锁尚未介入
+                                logDebug("✅ 键盘锁稳定，设备仍处于解锁状态 - 正在禁用传感器: ${sensorFeatures.map { it.displayName }}")
                                 val sensorResults = privacyManager.disableFeatures(sensorFeatures.toSet())
-                                processResults(sensorResults, sensorFeatures, "🔒", "disabled", "Disabled", isLockAction = true)
+                                processResults(sensorResults, sensorFeatures, "🔒", "已禁用", "已禁用", isLockAction = true)
                             } else {
-                                // Keyguard engaged during stabilization - expected behavior
-                                logDebug("🔒 Keyguard engaged during stabilization - skipping sensors (by design)")
+                                // 键盘锁在稳定期间介入 - 预期行为
+                                logDebug("🔒 键盘锁在稳定期间介入 - 跳过传感器（设计如此）")
                                 debugNotifier.notifyFeatureSkipped(
                                     sensorFeatures.map { it.displayName }.joinToString(", "),
-                                    "device locked before sensors could be disabled"
+                                    "在传感器禁用前设备已锁定"
                                 )
                             }
                         } else {
-                            logWarning("⚠️ Device already locked at ACTION_SCREEN_OFF - cannot disable sensors: ${sensorFeatures.map { it.displayName }}")
+                            logWarning("⚠️ 设备在 ACTION_SCREEN_OFF 时已锁定 - 无法禁用传感器: ${sensorFeatures.map { it.displayName }}")
                             debugNotifier.notifyFeatureSkipped(
                                 sensorFeatures.map { it.displayName }.joinToString(", "),
-                                "device already locked"
+                                "设备已锁定"
                             )
                         }
                     }
 
-                    // Handle regular features and protection modes after delay
+                    // 延迟后处理常规功能和保护模式
                     if (regularFeatures.isNotEmpty() || protectionModes.isNotEmpty()) {
-                        logDebug("📍 CHECKPOINT: Entering regular features/protection modes block")
-                        logDebug("📊 regularFeatures count: ${regularFeatures.size}, protectionModes count: ${protectionModes.size}")
+                        logDebug("📍 检查点：进入常规功能/保护模式代码块")
+                        logDebug("📊 regularFeatures 数量: ${regularFeatures.size}, protectionModes 数量: ${protectionModes.size}")
                         logDebug("📊 regularFeatures: ${regularFeatures.map { it.displayName }}")
 
-                        // If device is already locked, disable immediately (no delay)
-                        // User won't see the transition anyway since screen is off
-                        // This prevents race condition where user unlocks during delay
+                        // 如果设备已锁定，则立即禁用（无延迟）
+                        // 反正屏幕已关闭，用户看不到过渡过程
+                        // 这防止了用户在延迟期间解锁的竞态条件
                         val lockDelay = if (isDeviceLocked) {
-                            logDebug("⚡ Device already locked - disabling features immediately (no delay)")
+                            logDebug("⚡ 设备已锁定 - 立即禁用功能（无延迟）")
                             0
                         } else {
                             preferenceManager.lockDelaySeconds
                         }
 
-                        logDebug("⏱️ Lock delay calculated: ${lockDelay}s (isDeviceLocked=$isDeviceLocked)")
+                        logDebug("⏱️ 锁定延迟计算值: ${lockDelay}秒 (isDeviceLocked=$isDeviceLocked)")
 
                         if (lockDelay > 0) {
-                            logDebug("⏳ Waiting ${lockDelay}s before disabling other features")
+                            logDebug("⏳ 等待 ${lockDelay}秒 后再禁用其他功能")
                             delay(lockDelay * 1000L)
 
-                            logDebug("⏱️ Delay completed, now validating screen state...")
+                            logDebug("⏱️ 延迟完成，现在验证屏幕状态...")
 
-                            // Validate screen is still locked after delay
+                            // 延迟后验证屏幕是否仍处于锁定状态
                             val isStillLocked = isScreenCurrentlyLocked()
-                            logDebug("🔍 Screen lock validation: isStillLocked=$isStillLocked")
+                            logDebug("🔍 屏幕锁定验证: isStillLocked=$isStillLocked")
 
                             if (!isStillLocked) {
-                                logWarning("⚠️ Screen is no longer locked after delay - cancelling disable action")
+                                logWarning("⚠️ 延迟后屏幕不再处于锁定状态 - 正在取消禁用操作")
                                 try {
                                     val km = applicationContext.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
                                     val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
                                     logWarning("🔍 KeyguardManager.isKeyguardLocked: ${km.isKeyguardLocked}")
                                     logWarning("🔍 PowerManager.isInteractive: ${pm.isInteractive}")
                                 } catch (e: Exception) {
-                                    logError("Error logging lock state details", e)
+                                    logError("记录锁定状态详情时出错", e)
                                 }
-                                debugNotifier.notifyActionCancelled("Screen unlocked during delay - disable cancelled")
+                                debugNotifier.notifyActionCancelled("延迟期间屏幕解锁 - 禁用已取消")
                                 return Result.success()
                             }
 
-                            logDebug("🔍 Checking global privacy setting...")
+                            logDebug("🔍 正在检查全局隐私设置...")
 
-                            // Re-check global privacy setting after delay
+                            // 延迟后再次检查全局隐私设置
                             val isGlobalPrivacyStillEnabled = preferenceManager.isGlobalPrivacyEnabled
-                            logDebug("🔍 Global privacy enabled: $isGlobalPrivacyStillEnabled")
+                            logDebug("🔍 全局隐私已启用: $isGlobalPrivacyStillEnabled")
 
                             if (!isGlobalPrivacyStillEnabled) {
-                                logDebug("🚫 Global privacy disabled during delay - cancelling disable action")
-                                debugNotifier.notifyActionCancelled("Global privacy disabled during delay")
+                                logDebug("🚫 延迟期间全局隐私被禁用 - 正在取消禁用操作")
+                                debugNotifier.notifyActionCancelled("延迟期间全局隐私被禁用")
                                 return Result.success()
                             }
                         } else {
-                            logDebug("⚡ Skipping delay (lockDelay=0), proceeding directly to disable features")
+                            logDebug("⚡ 跳过延迟 (lockDelay=0)，直接进行禁用功能")
                         }
 
-                        logDebug("📍 CHECKPOINT: Passed all validations, proceeding to disable features")
+                        logDebug("📍 检查点：已通过所有验证，继续进行禁用功能")
 
-                        // Disable regular features (WiFi, Bluetooth, NFC, etc.)
+                        // 禁用常规功能（WiFi、蓝牙、NFC 等）
                         if (regularFeatures.isNotEmpty()) {
-                            logDebug("🔒 Disabling regular features (count=${regularFeatures.size}): ${regularFeatures.map { it.displayName }}")
-                            logDebug("🔒 About to call privacyManager.disableFeatures()...")
+                            logDebug("🔒 正在禁用常规功能 (数量=${regularFeatures.size}): ${regularFeatures.map { it.displayName }}")
+                            logDebug("🔒 即将调用 privacyManager.disableFeatures()...")
 
                             val regularResults = privacyManager.disableFeatures(regularFeatures.toSet())
 
-                            logDebug("🔒 privacyManager.disableFeatures() returned ${regularResults.size} results")
+                            logDebug("🔒 privacyManager.disableFeatures() 返回了 ${regularResults.size} 个结果")
 
-                            processResults(regularResults, regularFeatures, "🔒", "disabled", "Disabled", isLockAction = true)
+                            processResults(regularResults, regularFeatures, "🔒", "已禁用", "已禁用", isLockAction = true)
                         } else {
-                            logDebug("ℹ️ No regular features to disable (list is empty)")
+                            logDebug("ℹ️ 没有要禁用的常规功能（列表为空）")
                         }
 
-                        // ENABLE protection modes (Airplane Mode, Battery Saver) - note: ENABLE, not disable!
-                        // Also track whether we enabled them (for "only if not manually set" feature)
+                        // 启用保护模式（飞行模式、省电模式）- 注意：是启用，不是禁用！
+                        // 同时记录我们是否启用了它们（针对“仅在未手动设置时”功能）
                         if (protectionModes.isNotEmpty()) {
-                            logDebug("🛡️ Enabling protection modes on lock: ${protectionModes.map { it.displayName }}")
+                            logDebug("🛡️ 正在锁屏上启用保护模式: ${protectionModes.map { it.displayName }}")
                             
-                            // Get current status to check if already enabled
+                            // 获取当前状态以检查是否已启用
                             val currentStatus = privacyManager.getCurrentStatus()
                             
                             for (mode in protectionModes) {
                                 val wasAlreadyEnabled = currentStatus[mode] == FeatureState.ENABLED
                                 
                                 if (wasAlreadyEnabled) {
-                                    // Already enabled (manually by user) - don't enable, mark as not enabled by app
-                                    logDebug("🛡️ ${mode.displayName} already enabled (manually set) - skipping")
+                                    // 已启用（由用户手动设置）- 不启用，标记为未由应用启用
+                                    logDebug("🛡️ ${mode.displayName} 已启用（手动设置）- 跳过")
                                     preferenceManager.setFeatureEnabledByApp(mode, false)
-                                    debugNotifier.notifyFeatureSkipped(mode.displayName, "already enabled")
+                                    debugNotifier.notifyFeatureSkipped(mode.displayName, "已启用")
                                 } else {
-                                    // Not enabled - enable it and mark as enabled by app
+                                    // 未启用 - 启用它并标记为由应用启用
                                     val results = privacyManager.enableFeatures(setOf(mode))
                                     val success = results.firstOrNull()?.success == true
                                     if (success) {
                                         preferenceManager.setFeatureEnabledByApp(mode, true)
-                                        logDebug("🛡️ ${mode.displayName} enabled by app")
+                                        logDebug("🛡️ ${mode.displayName} 由应用启用")
                                     }
-                                    processResults(results, listOf(mode), "🛡️", "enabled", "Enabled", isLockAction = true)
+                                    processResults(results, listOf(mode), "🛡️", "已启用", "已启用", isLockAction = true)
                                 }
                             }
                         }
@@ -323,9 +323,9 @@ class PrivacyActionWorker(
                 val featuresToEnable = configManager.getFeaturesToEnableOnUnlock()
 
                 if (featuresToEnable.isNotEmpty()) {
-                    logDebug("Enabling features on unlock: ${featuresToEnable.map { it.displayName }}")
+                    logDebug("解锁时启用功能: ${featuresToEnable.map { it.displayName }}")
 
-                    // Split into sensor features, protection modes, and regular features
+                    // 拆分为传感器功能、保护模式和常规功能
                     val sensorFeatures = featuresToEnable.filter {
                         it == PrivacyFeature.CAMERA || it == PrivacyFeature.MICROPHONE
                     }
@@ -337,84 +337,84 @@ class PrivacyActionWorker(
                         it !in PrivacyFeature.getSystemModeFeatures()
                     }
 
-                    // Enable camera/microphone IMMEDIATELY (no delay)
+                    // 立即启用相机/麦克风（无延迟）
                     if (sensorFeatures.isNotEmpty()) {
-                        logDebug("⚡ Enabling sensors immediately (no delay): ${sensorFeatures.map { it.displayName }}")
+                        logDebug("⚡ 立即启用传感器（无延迟）: ${sensorFeatures.map { it.displayName }}")
                         val sensorResults = privacyManager.enableFeatures(sensorFeatures.toSet())
-                        processResults(sensorResults, sensorFeatures, "🔓", "enabled", "Re-enabled", isLockAction = false)
+                        processResults(sensorResults, sensorFeatures, "🔓", "已启用", "已重新启用", isLockAction = false)
                     }
 
-                    // Handle regular features and protection modes after delay
+                    // 延迟后处理常规功能和保护模式
                     if (regularFeatures.isNotEmpty() || protectionModes.isNotEmpty()) {
                         val unlockDelay = preferenceManager.unlockDelaySeconds
                         if (unlockDelay > 0) {
-                            logDebug("⏳ Waiting ${unlockDelay}s before enabling other features")
+                            logDebug("⏳ 等待 ${unlockDelay}秒 后再启用其他功能")
                             delay(unlockDelay * 1000L)
 
-                            // Validate screen is still unlocked after delay
+                            // 延迟后验证屏幕是否仍处于解锁状态
                             if (isScreenCurrentlyLocked()) {
-                                logWarning("⚠️ Screen is locked again after delay - cancelling enable action")
-                                debugNotifier.notifyActionCancelled("Screen locked during delay - enable cancelled")
+                                logWarning("⚠️ 延迟后屏幕再次锁定 - 正在取消启用操作")
+                                debugNotifier.notifyActionCancelled("延迟期间屏幕锁定 - 启用已取消")
                                 return Result.success()
                             }
 
-                            // Re-check global privacy setting after delay
+                            // 延迟后再次检查全局隐私设置
                             if (!preferenceManager.isGlobalPrivacyEnabled) {
-                                logDebug("🚫 Global privacy disabled during delay - skipping enable action")
-                                debugNotifier.notifyActionCancelled("Global privacy disabled during delay")
+                                logDebug("🚫 延迟期间全局隐私被禁用 - 正在跳过启用操作")
+                                debugNotifier.notifyActionCancelled("延迟期间全局隐私被禁用")
                                 return Result.success()
                             }
                         }
 
-                        // Enable regular features (WiFi, Bluetooth, etc.)
+                        // 启用常规功能（WiFi、蓝牙等）
                         if (regularFeatures.isNotEmpty()) {
-                            // Filter features based on "only if not already enabled" setting
-                            // This prevents connection resets (e.g., WiFi/VPN disconnections)
+                            // 根据“仅在尚未启用时”设置过滤功能
+                            // 这防止了连接重置（例如 WiFi/VPN 断开连接）
                             val currentStatus = privacyManager.getCurrentStatus()
                             val filteredRegularFeatures = regularFeatures.filter { feature ->
                                 val onlyIfNotEnabled = preferenceManager.getFeatureOnlyIfNotEnabled(feature)
                                 if (!onlyIfNotEnabled) {
-                                    true // Always enable if "only if not enabled" is not set
+                                    true // 如果未设置“仅在尚未启用时”，则始终启用
                                 } else {
-                                    // Check current state
+                                    // 检查当前状态
                                     val currentState = currentStatus[feature]
                                     val isAlreadyEnabled = currentState == FeatureState.ENABLED
 
                                     if (isAlreadyEnabled) {
-                                        logDebug("⏸️ ${feature.displayName} already enabled - skipping enable (onlyIfNotEnabled=true)")
-                                        debugNotifier.notifyFeatureSkipped(feature.displayName, "already enabled")
+                                        logDebug("⏸️ ${feature.displayName} 已启用 - 跳过启用 (onlyIfNotEnabled=true)")
+                                        debugNotifier.notifyFeatureSkipped(feature.displayName, "已启用")
                                     }
-                                    !isAlreadyEnabled // Only include if NOT already enabled
+                                    !isAlreadyEnabled // 仅在尚未启用时包含
                                 }
                             }
 
                             if (filteredRegularFeatures.isNotEmpty()) {
-                                logDebug("🔓 Enabling regular features: ${filteredRegularFeatures.map { it.displayName }}")
+                                logDebug("🔓 正在启用常规功能: ${filteredRegularFeatures.map { it.displayName }}")
                                 val regularResults = privacyManager.enableFeatures(filteredRegularFeatures.toSet())
-                                processResults(regularResults, filteredRegularFeatures, "🔓", "enabled", "Re-enabled", isLockAction = false)
+                                processResults(regularResults, filteredRegularFeatures, "🔓", "已启用", "已重新启用", isLockAction = false)
                             }
                         }
 
-                        // DISABLE protection modes (Airplane Mode, Battery Saver) - note: DISABLE, not enable!
-                        // Check "only if not manually set" preference before disabling
+                        // 禁用保护模式（飞行模式、省电模式）- 注意：是禁用，不是启用！
+                        // 在禁用前检查“仅在未手动设置时”偏好设置
                         if (protectionModes.isNotEmpty()) {
-                            logDebug("🛡️ Disabling protection modes on unlock: ${protectionModes.map { it.displayName }}")
+                            logDebug("🛡️ 正在解锁时禁用保护模式: ${protectionModes.map { it.displayName }}")
                             
                             for (mode in protectionModes) {
                                 val onlyIfNotManual = preferenceManager.getFeatureOnlyIfNotManual(mode)
                                 val wasEnabledByApp = preferenceManager.getFeatureEnabledByApp(mode)
                                 
                                 if (onlyIfNotManual && !wasEnabledByApp) {
-                                    // "Only if not manually set" is enabled AND we didn't enable it
-                                    // Skip disabling - user had it enabled manually
-                                    logDebug("🛡️ ${mode.displayName} was manually set - skipping disable (onlyIfNotManual=true)")
-                                    debugNotifier.notifyFeatureSkipped(mode.displayName, "manually set")
+                                    // “仅在未手动设置时”已启用 且 我们未启用它
+                                    // 跳过禁用 - 用户手动启用了它
+                                    logDebug("🛡️ ${mode.displayName} 是手动设置的 - 跳过禁用 (onlyIfNotManual=true)")
+                                    debugNotifier.notifyFeatureSkipped(mode.displayName, "手动设置")
                                 } else {
-                                    // Either "only if not manually set" is disabled, or we enabled it
-                                    // Disable it and clear the flag
+                                    // 要么“仅在未手动设置时”已禁用，要么我们启用了它
+                                    // 禁用它并清除标志
                                     val results = privacyManager.disableFeatures(setOf(mode))
                                     preferenceManager.setFeatureEnabledByApp(mode, false)
-                                    processResults(results, listOf(mode), "🛡️", "disabled", "Disabled", isLockAction = false)
+                                    processResults(results, listOf(mode), "🛡️", "已禁用", "已禁用", isLockAction = false)
                                 }
                             }
                         }
@@ -425,14 +425,14 @@ class PrivacyActionWorker(
             return Result.success()
             
         } catch (e: kotlinx.coroutines.CancellationException) {
-            // Work was cancelled (e.g., screen state changed during delay)
-            // This is expected behavior, not an error
-            logDebug("⚠️ Privacy action cancelled (screen state changed)")
-            debugNotifier.notifyActionCancelled("Screen state changed during action")
-            throw e // Re-throw to properly cancel the coroutine
+            // 工作已被取消（例如，延迟期间屏幕状态改变）
+            // 这是预期行为，不是错误
+            logDebug("⚠️ 隐私操作已取消（屏幕状态改变）")
+            debugNotifier.notifyActionCancelled("操作期间屏幕状态改变")
+            throw e // 重新抛出以正确取消协程
         } catch (e: Exception) {
-            logError("Privacy action worker failed", e)
-            debugNotifier.notifyError("Worker failed: ${e.message}")
+            logError("隐私操作工作器失败", e)
+            debugNotifier.notifyError("工作器失败: ${e.message}")
             return Result.failure()
         }
     }
@@ -449,11 +449,11 @@ class PrivacyActionWorker(
         val failedResults = results.filter { !it.success }
 
         results.forEach { result ->
-            val status = if (result.success) "✅ SUCCESS" else "❌ FAILED"
+            val status = if (result.success) "✅ 成功" else "❌ 失败"
             Log.i(TAG, "$logIcon ${result.feature.displayName}: $status")
         }
 
-        Log.i(TAG, "Lock action completed: $successCount/${features.size} features $actionPastTense")
+        Log.i(TAG, "锁定操作完成: $successCount/${features.size} 个功能 $actionPastTense")
 
         if (successCount > 0) {
             val successfulFeatures = results.filter { it.success }.map { result ->
@@ -462,7 +462,7 @@ class PrivacyActionWorker(
             val toastMessage = "$toastPrefix: ${successfulFeatures.joinToString(", ")}"
             showToast(toastMessage)
 
-            // Send debug notification for successful actions
+            // 为成功的操作发送调试通知
             if (isLockAction) {
                 debugNotifier.notifyLockAction(successfulFeatures)
             } else {
@@ -470,10 +470,10 @@ class PrivacyActionWorker(
             }
         }
 
-        // Notify about failures
+        // 通知失败情况
         if (failedResults.isNotEmpty()) {
             val failedFeatureNames = failedResults.map { it.feature.displayName }
-            debugNotifier.notifyError("Failed to ${if (isLockAction) "disable" else "enable"}: ${failedFeatureNames.joinToString(", ")}")
+            debugNotifier.notifyError("${if (isLockAction) "禁用" else "启用"}失败: ${failedFeatureNames.joinToString(", ")}")
         }
     }
 }
