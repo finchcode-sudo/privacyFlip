@@ -3,15 +3,15 @@ package io.github.dorumrr.privacyflip.privacy
 import android.content.Context
 import android.util.Log
 import io.github.dorumrr.privacyflip.data.*
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 import io.github.dorumrr.privacyflip.util.DeviceDetector
 import io.github.dorumrr.privacyflip.util.PreferenceManager
 import kotlinx.coroutines.delay
 
 class NFCToggle(
-    rootManager: RootManager,
+    shizukuManager: ShizukuManager,
     private val context: Context
-) : BasePrivacyToggle(rootManager) {
+) : BasePrivacyToggle(shizukuManager) {
 
     override val feature = PrivacyFeature.NFC
     override val featureName = "NFC"

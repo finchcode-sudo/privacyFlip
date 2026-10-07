@@ -2,10 +2,10 @@ package io.github.dorumrr.privacyflip.privacy
 
 import android.util.Log
 import io.github.dorumrr.privacyflip.data.*
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 
 abstract class BasePrivacyToggle(
-    protected val rootManager: RootManager
+    protected val shizukuManager: ShizukuManager
 ) : PrivacyToggle {
 
     protected val TAG: String = "privacyFlip-${this::class.simpleName ?: "BasePrivacyToggle"}"
@@ -18,13 +18,13 @@ abstract class BasePrivacyToggle(
     override suspend fun isSupported(): FeatureSupport {
         return try {
             // Check if privilege is granted (Shizuku)
-            if (!rootManager.isRootGranted()) {
+            if (!shizukuManager.isShizukuGranted()) {
                 // Can't check support without permission - assume supported
                 // This is optimistic but prevents blocking UI before permission is granted
                 return FeatureSupport.FULLY_SUPPORTED
             }
 
-            val result = rootManager.executeWithFallbacks(statusCommands.map { it.primary })
+            val result = shizukuManager.executeWithFallbacks(statusCommands.map { it.primary })
             if (result.success) {
                 FeatureSupport.FULLY_SUPPORTED
             } else {
@@ -52,7 +52,7 @@ abstract class BasePrivacyToggle(
                 Log.d(TAG, "  Command ${index + 1}: ${cmd.primary}")
             }
 
-            val result = rootManager.executeWithFallbacks(commands.map { it.primary })
+            val result = shizukuManager.executeWithFallbacks(commands.map { it.primary })
 
             Log.d(TAG, "📊 Command execution result: success=${result.success}, exitCode=${result.exitCode}")
             if (result.output.isNotEmpty()) {
@@ -84,7 +84,7 @@ abstract class BasePrivacyToggle(
     
     override suspend fun getCurrentState(): FeatureState {
         return try {
-            val result = rootManager.executeWithFallbacks(statusCommands.map { it.primary })
+            val result = shizukuManager.executeWithFallbacks(statusCommands.map { it.primary })
             
             if (!result.success) {
                 return FeatureState.UNKNOWN

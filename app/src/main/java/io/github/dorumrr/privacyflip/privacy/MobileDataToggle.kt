@@ -1,10 +1,10 @@
 package io.github.dorumrr.privacyflip.privacy
 
 import io.github.dorumrr.privacyflip.data.*
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 import io.github.dorumrr.privacyflip.util.StatusParsingUtils
 
-class MobileDataToggle(rootManager: RootManager) : BasePrivacyToggle(rootManager) {
+class MobileDataToggle(shizukuManager: ShizukuManager) : BasePrivacyToggle(shizukuManager) {
 
     override val feature = PrivacyFeature.MOBILE_DATA
     override val featureName = "Mobile Data"

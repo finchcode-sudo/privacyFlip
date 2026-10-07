@@ -1,4 +1,4 @@
-package io.github.dorumrr.privacyflip.root
+package io.github.dorumrr.privacyflip.privilege
 
 import android.content.Context
 import android.os.Build
@@ -10,10 +10,10 @@ import io.github.dorumrr.privacyflip.util.SingletonHolder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RootManager private constructor() {
+class ShizukuManager private constructor() {
 
-    companion object : SingletonHolder<RootManager, Unit>({ RootManager() }) {
-        private const val TAG = "privacyFlip-RootManager"
+    companion object : SingletonHolder<ShizukuManager, Unit>({ ShizukuManager() }) {
+        private const val TAG = "privacyFlip-ShizukuManager"
     }
 
     private var logManager: LogManager? = null
@@ -27,7 +27,7 @@ class RootManager private constructor() {
         privilegeManager?.initialize()
     }
 
-    suspend fun isRootAvailable(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun isShizukuAvailable(): Boolean = withContext(Dispatchers.IO) {
         try {
             return@withContext privilegeManager?.isPrivilegeAvailable() ?: false
         } catch (e: Exception) {
@@ -35,18 +35,18 @@ class RootManager private constructor() {
         }
     }
 
-    suspend fun isRootGranted(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun isShizukuGranted(): Boolean = withContext(Dispatchers.IO) {
         try {
             val granted = privilegeManager?.isPermissionGranted() ?: false
-            Log.d(TAG, "isRootGranted() - privilegeManager.isPermissionGranted() returned: $granted")
+            Log.d(TAG, "isShizukuGranted() - privilegeManager.isPermissionGranted() returned: $granted")
             return@withContext granted
         } catch (e: Exception) {
-            Log.e(TAG, "isRootGranted() - exception: ${e.message}")
+            Log.e(TAG, "isShizukuGranted() - exception: ${e.message}")
             return@withContext false
         }
     }
 
-    suspend fun requestRootPermission(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun requestShizukuPermission(): Boolean = withContext(Dispatchers.IO) {
         try {
             return@withContext privilegeManager?.requestPermission() ?: false
         } catch (e: Exception) {
@@ -113,25 +113,25 @@ class RootManager private constructor() {
         }
     }
 
-    suspend fun forceRootPermissionRequest(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun forceShizukuPermissionRequest(): Boolean = withContext(Dispatchers.IO) {
         try {
-            Log.d(TAG, "forceRootPermissionRequest() - calling privilegeManager.requestPermission()...")
+            Log.d(TAG, "forceShizukuPermissionRequest() - calling privilegeManager.requestPermission()...")
             val granted = privilegeManager?.requestPermission() ?: false
-            Log.d(TAG, "forceRootPermissionRequest() - privilegeManager.requestPermission() returned: $granted")
+            Log.d(TAG, "forceShizukuPermissionRequest() - privilegeManager.requestPermission() returned: $granted")
 
             // Double-check the actual state (this is the source of truth)
             val actualGranted = privilegeManager?.isPermissionGranted() ?: false
-            Log.d(TAG, "forceRootPermissionRequest() - double-check: privilegeManager.isPermissionGranted() = $actualGranted")
+            Log.d(TAG, "forceShizukuPermissionRequest() - double-check: privilegeManager.isPermissionGranted() = $actualGranted")
 
             // Use the double-check value as it's more reliable
             // requestPermission() might return false due to timing, but permission could still be granted
             if (granted != actualGranted) {
-                Log.w(TAG, "forceRootPermissionRequest() - MISMATCH: requestPermission=$granted, isPermissionGranted=$actualGranted - using actualGranted")
+                Log.w(TAG, "forceShizukuPermissionRequest() - MISMATCH: requestPermission=$granted, isPermissionGranted=$actualGranted - using actualGranted")
             }
 
             return@withContext actualGranted
         } catch (e: Exception) {
-            Log.e(TAG, "forceRootPermissionRequest() - error: ${e.message}", e)
+            Log.e(TAG, "forceShizukuPermissionRequest() - error: ${e.message}", e)
             return@withContext false
         }
     }

@@ -1,10 +1,10 @@
 package io.github.dorumrr.privacyflip.privacy
 
 import io.github.dorumrr.privacyflip.data.*
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 import io.github.dorumrr.privacyflip.util.StatusParsingUtils
 
-class BatterySaverToggle(rootManager: RootManager) : BasePrivacyToggle(rootManager) {
+class BatterySaverToggle(shizukuManager: ShizukuManager) : BasePrivacyToggle(shizukuManager) {
 
     override val feature = PrivacyFeature.BATTERY_SAVER
     override val featureName = "Battery Saver"

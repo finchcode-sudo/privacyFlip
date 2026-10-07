@@ -14,7 +14,7 @@ import io.github.dorumrr.privacyflip.data.FeatureState
 import io.github.dorumrr.privacyflip.data.PrivacyFeature
 import io.github.dorumrr.privacyflip.data.PrivacyResult
 import io.github.dorumrr.privacyflip.privacy.PrivacyManager
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 import io.github.dorumrr.privacyflip.util.ConnectionStateChecker
 import io.github.dorumrr.privacyflip.util.DebugLogHelper
 import io.github.dorumrr.privacyflip.util.DebugNotificationHelper
@@ -65,7 +65,11 @@ class PrivacyActionWorker(
             return
         }
         Handler(Looper.getMainLooper()).post {
-            Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                applicationContext,
+                io.github.dorumrr.privacyflip.util.NotificationText.localizeList(message),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -100,11 +104,11 @@ class PrivacyActionWorker(
 
             logDebug("🔒 Executing privacy actions: locking=$isLocking, deviceLocked=$isDeviceLocked, trigger=$trigger, reason=$reason")
 
-            val rootManager = RootManager.getInstance(Unit)
-            rootManager.initialize(applicationContext)
+            val shizukuManager = ShizukuManager.getInstance(Unit)
+            shizukuManager.initialize(applicationContext)
 
             // Check if privilege is granted (Shizuku)
-            val hasPrivilege = rootManager.isRootGranted()
+            val hasPrivilege = shizukuManager.isShizukuGranted()
 
             if (!hasPrivilege) {
                 logWarning("Privilege permission not granted - cannot execute privacy actions")
@@ -115,7 +119,7 @@ class PrivacyActionWorker(
 
             val privacyManager = PrivacyManager.getInstance(applicationContext)
             val configManager = FeatureConfigurationManager(preferenceManager)
-            val connectionChecker = ConnectionStateChecker(applicationContext, rootManager)
+            val connectionChecker = ConnectionStateChecker(applicationContext, shizukuManager)
             val foregroundAppDetector = ForegroundAppDetector(applicationContext)
 
             val isGlobalPrivacyEnabled = preferenceManager.isGlobalPrivacyEnabled

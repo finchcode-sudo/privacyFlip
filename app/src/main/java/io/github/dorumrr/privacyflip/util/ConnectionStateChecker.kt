@@ -4,7 +4,7 @@ import android.content.Context
 import android.media.AudioManager
 import android.util.Log
 import io.github.dorumrr.privacyflip.data.PrivacyFeature
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 
 /**
  * Utility class to check if connectivity features are currently in use/connected.
@@ -18,7 +18,7 @@ import io.github.dorumrr.privacyflip.root.RootManager
  */
 class ConnectionStateChecker(
     private val context: Context,
-    private val rootManager: RootManager
+    private val shizukuManager: ShizukuManager
 ) {
     companion object {
         private const val TAG = "privacyFlip-ConnectionStateChecker"
@@ -48,11 +48,11 @@ class ConnectionStateChecker(
 
     /**
      * Check if WiFi is connected to a network.
-     * Uses dumpsys connectivity which is available with root/shizuku.
+     * Uses dumpsys connectivity which is available with Shizuku.
      */
     private suspend fun isWifiConnected(): Boolean {
         return try {
-            val result = rootManager.executeCommand("dumpsys connectivity | grep -E 'WIFI.*(CONNECTED|state)' | head -5")
+            val result = shizukuManager.executeCommand("dumpsys connectivity | grep -E 'WIFI.*(CONNECTED|state)' | head -5")
             
             if (!result.success) {
                 Log.w(TAG, "Failed to check WiFi connection state via dumpsys")
@@ -133,7 +133,7 @@ class ConnectionStateChecker(
      */
     private suspend fun checkBluetoothManager(): Boolean? {
         return try {
-            val result = rootManager.executeCommand(
+            val result = shizukuManager.executeCommand(
                 "dumpsys bluetooth_manager | grep -i -E 'ConnectionState.*CONNECTED|profile.*CONNECTED|A2DP.*CONNECTED|HFP.*CONNECTED'"
             )
             
@@ -183,7 +183,7 @@ class ConnectionStateChecker(
      */
     private suspend fun checkAudioOutput(): Boolean? {
         return try {
-            val result = rootManager.executeCommand(
+            val result = shizukuManager.executeCommand(
                 "dumpsys audio | grep -i -E 'DEVICE_OUT.*BLUETOOTH|Output Device.*BLUETOOTH|mBluetoothA2dp.*true'"
             )
             
@@ -224,7 +224,7 @@ class ConnectionStateChecker(
      */
     private suspend fun checkMediaSession(): Boolean? {
         return try {
-            val result = rootManager.executeCommand(
+            val result = shizukuManager.executeCommand(
                 "dumpsys media_session | grep -i -A 5 'bluetooth'"
             )
             
@@ -265,7 +265,7 @@ class ConnectionStateChecker(
      */
     private suspend fun checkBluetoothService(): Boolean? {
         return try {
-            val result = rootManager.executeCommand(
+            val result = shizukuManager.executeCommand(
                 "dumpsys bluetooth | grep -i -E 'connected devices|bonded.*connected'"
             )
             
@@ -306,7 +306,7 @@ class ConnectionStateChecker(
         return try {
             // Query dumpsys location for active requests and listeners
             // Look for LocationRequest entries which indicate apps actively requesting location
-            val result = rootManager.executeCommand(
+            val result = shizukuManager.executeCommand(
                 "dumpsys location | grep -E 'LocationRequest|UpdateRecord|Active|Listener.*\\[' | grep -v 'passive' | head -30"
             )
             
@@ -348,7 +348,7 @@ class ConnectionStateChecker(
 
     /**
      * Check if microphone is in use (during a call or communication).
-     * This uses standard Android API, no root required.
+     * This uses standard Android API, no special privilege required.
      */
     private fun isMicrophoneInUse(): Boolean {
         return try {

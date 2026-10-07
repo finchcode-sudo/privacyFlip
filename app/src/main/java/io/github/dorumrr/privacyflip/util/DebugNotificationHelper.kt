@@ -50,17 +50,17 @@ class DebugNotificationHelper private constructor(private val context: Context) 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 Constants.DebugNotification.CHANNEL_ID,
-                "Privacy Actions Debug",
+                "隐私操作调试通知",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
-                description = "显示隐私操作的调试通知（可禁用）"
+                description = "显示隐私操作的调试通知（可关闭）"
                 setShowBadge(false)
                 enableVibration(false)
                 enableLights(false)
             }
 
             notificationManager.createNotificationChannel(channel)
-            Log.d(TAG, "调试通知渠道已创建")
+            Log.d(TAG, "Debug notification channel created")
         }
     }
 
@@ -76,7 +76,7 @@ class DebugNotificationHelper private constructor(private val context: Context) 
         Log.d(TAG, "notify() called - debugNotificationsEnabled=$isEnabled, title=$title")
         
         if (!isEnabled) {
-            Log.d(TAG, "调试通知已禁用——正在跳过")
+            Log.d(TAG, "Debug notifications disabled - skipping")
             return
         }
 
@@ -111,10 +111,10 @@ class DebugNotificationHelper private constructor(private val context: Context) 
                 .build()
 
             notificationManager.notify(notificationId, notification)
-            Log.d(TAG, "调试通知已发送：$title - $message")
+            Log.d(TAG, "Debug notification sent: $title - $message")
 
         } catch (e: Exception) {
-            Log.e(TAG, "发送调试通知失败", e)
+            Log.e(TAG, "Failed to send debug notification", e)
         }
     }
 
@@ -125,52 +125,52 @@ class DebugNotificationHelper private constructor(private val context: Context) 
     fun notifyLockAction(features: List<String>) {
         if (features.isEmpty()) return
         notify(
-            "🔒 屏幕已锁定",
-            "Disabling: ${features.joinToString(", ")}"
+            "🔒 已锁屏",
+            "正在关闭：${NotificationText.localizeList(features.joinToString(", "))}"
         )
     }
 
     fun notifyUnlockAction(features: List<String>) {
         if (features.isEmpty()) return
         notify(
-            "🔓 屏幕已解锁",
-            "Enabling: ${features.joinToString(", ")}"
+            "🔓 已解锁",
+            "正在开启：${NotificationText.localizeList(features.joinToString(", "))}"
         )
     }
 
     fun notifyFeatureSkipped(feature: String, reason: String) {
         notify(
-            "⏸️ 功能已跳过",
-            "$feature - $reason"
+            "⏸️ 已跳过",
+            NotificationText.localizeList("$feature - $reason")
         )
     }
 
     fun notifyActionCancelled(reason: String) {
         notify(
             "⚠️ 操作已取消",
-            reason
+            NotificationText.localize(reason)
         )
     }
 
     fun notifyError(message: String) {
         notify(
             "❌ 操作失败",
-            message,
+            NotificationText.localizeList(message),
             autoDismiss = false
         )
     }
 
     fun notifyGlobalPrivacyDisabled() {
         notify(
-            "🚫 Privacy Protection OFF",
-            "操作已跳过——全局隐私已禁用"
+            "🚫 隐私保护已关闭",
+            "已跳过操作：全局隐私开关已关闭"
         )
     }
 
     fun notifyNoPrivilege() {
         notify(
-            "❌ No Permission",
-            "无法执行操作——未授予Root/Shizuku权限",
+            "❌ 没有权限",
+            "无法执行操作：未授予 Shizuku 权限",
             autoDismiss = false
         )
     }

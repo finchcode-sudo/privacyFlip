@@ -272,7 +272,7 @@ class MainFragment : Fragment() {
         binding.globalPrivacyCard.globalPrivacySwitch.setOnCheckedChangeListener { _, isChecked ->
             if (!isUpdatingUI) {
                 // Toggling global privacy on/off just changes monitoring behavior.
-                // It does NOT require root permission since it doesn't modify feature states.
+                // It does NOT require Shizuku permission since it doesn't modify feature states.
                 viewModel.toggleGlobalPrivacy(isChecked)
             }
         }
@@ -280,9 +280,9 @@ class MainFragment : Fragment() {
 
     private fun setupSystemRequirementsCard() {
         with(binding.systemRequirementsCard) {
-            // Root access button
-            grantRootButton.setOnClickListener {
-                viewModel.requestRootPermission()
+            // Shizuku access button
+            grantShizukuButton.setOnClickListener {
+                viewModel.requestShizukuPermission()
             }
 
 
@@ -398,7 +398,7 @@ class MainFragment : Fragment() {
             // Requirements: 1) Privilege granted, 2) Battery optimization disabled
             val batteryManager = io.github.dorumrr.privacyflip.util.BatteryOptimizationManager(requireContext())
             val isBatteryOptimizationDisabled = batteryManager.isIgnoringBatteryOptimizations()
-            val shouldShowSystemRequirements = !uiState.isRootGranted || !isBatteryOptimizationDisabled
+            val shouldShowSystemRequirements = !uiState.isShizukuGranted || !isBatteryOptimizationDisabled
             binding.systemRequirementsCard.root.visibility = if (shouldShowSystemRequirements) View.VISIBLE else View.GONE
 
             // Always show footer after loading completes
@@ -636,7 +636,7 @@ class MainFragment : Fragment() {
             // Force switch OFF when:
             // 1. No privilege method available (NONE)
             // 2. Privilege method available but permission not granted
-            val switchState = if (uiState.privilegeMethod == io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE || !uiState.isRootGranted) {
+            val switchState = if (uiState.privilegeMethod == io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE || !uiState.isShizukuGranted) {
                 false
             } else {
                 uiState.isGlobalPrivacyEnabled
@@ -699,8 +699,8 @@ class MainFragment : Fragment() {
 
     private fun updateSystemRequirementsCard(uiState: UiState) {
         Log.d(TAG, "========== updateSystemRequirementsCard() ==========")
-        Log.d(TAG, "updateSystemRequirementsCard() - isRootGranted: ${uiState.isRootGranted}")
-        Log.d(TAG, "updateSystemRequirementsCard() - isRootAvailable: ${uiState.isRootAvailable}")
+        Log.d(TAG, "updateSystemRequirementsCard() - isShizukuGranted: ${uiState.isShizukuGranted}")
+        Log.d(TAG, "updateSystemRequirementsCard() - isShizukuAvailable: ${uiState.isShizukuAvailable}")
         Log.d(TAG, "updateSystemRequirementsCard() - privilegeMethod: ${uiState.privilegeMethod}")
 
         // Check if battery optimization is disabled
@@ -708,25 +708,25 @@ class MainFragment : Fragment() {
         val isBatteryOptimizationDisabled = batteryManager.isIgnoringBatteryOptimizations()
         Log.d(TAG, "updateSystemRequirementsCard() - isBatteryOptimizationDisabled: $isBatteryOptimizationDisabled")
 
-        // Hide entire card if both root is granted AND battery optimization is disabled
-        if (uiState.isRootGranted && isBatteryOptimizationDisabled) {
+        // Hide entire card if both Shizuku is granted AND battery optimization is disabled
+        if (uiState.isShizukuGranted && isBatteryOptimizationDisabled) {
             Log.d(TAG, "updateSystemRequirementsCard() - ✅ All requirements met, hiding entire card")
             binding.systemRequirementsCard.root.visibility = View.GONE
             return
         }
 
         // Show card if any requirement is not met
-        Log.d(TAG, "updateSystemRequirementsCard() - ⚠️ Requirements not met, showing card (root=${uiState.isRootGranted}, battery=$isBatteryOptimizationDisabled)")
+        Log.d(TAG, "updateSystemRequirementsCard() - ⚠️ Requirements not met, showing card (shizuku=${uiState.isShizukuGranted}, battery=$isBatteryOptimizationDisabled)")
         binding.systemRequirementsCard.root.visibility = View.VISIBLE
 
         with(binding.systemRequirementsCard) {
             // Update privileged access section
             val privilegeMethod = uiState.privilegeMethod
 
-            if (!uiState.isRootGranted) {
-                Log.d(TAG, "updateSystemRequirementsCard() - Root NOT granted, showing grant UI")
+            if (!uiState.isShizukuGranted) {
+                Log.d(TAG, "updateSystemRequirementsCard() - Shizuku NOT granted, showing grant UI")
                 // Privilege not granted
-                rootStatusText.text = if (uiState.isRootAvailable) {
+                shizukuStatusText.text = if (uiState.isShizukuAvailable) {
                     "Shizuku Available"
                 } else {
                     "Not Available/Started"
@@ -741,28 +741,28 @@ class MainFragment : Fragment() {
                 }
 
                 // Always show the button (can re-request permission / open Shizuku install page)
-                rootActionsContainer.visibility = View.VISIBLE
+                shizukuActionsContainer.visibility = View.VISIBLE
 
-                grantRootButton.text = when (privilegeMethod) {
+                grantShizukuButton.text = when (privilegeMethod) {
                     io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.SHIZUKU -> "授予shizuku权限"
                     io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE -> "安装shizuku"
                 }
 
                 // Disable button if Shizuku is not available
-                grantRootButton.isEnabled = privilegeMethod != io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE
-                grantRootButton.alpha = if (privilegeMethod != io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE) 1.0f else 0.5f
+                grantShizukuButton.isEnabled = privilegeMethod != io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE
+                grantShizukuButton.alpha = if (privilegeMethod != io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE) 1.0f else 0.5f
 
             } else {
                 // Privilege granted
-                Log.d(TAG, "updateSystemRequirementsCard() - Root IS granted, hiding grant UI")
-                rootStatusText.text = when (privilegeMethod) {
+                Log.d(TAG, "updateSystemRequirementsCard() - Shizuku IS granted, hiding grant UI")
+                shizukuStatusText.text = when (privilegeMethod) {
                     io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.SHIZUKU -> "Shizuku Granted"
                     else -> "Granted"
                 }
 
-                // Hide root actions when granted
-                rootActionsContainer.visibility = View.GONE
-                Log.d(TAG, "updateSystemRequirementsCard() - Set rootActionsContainer.visibility = GONE")
+                // Hide Shizuku actions when granted
+                shizukuActionsContainer.visibility = View.GONE
+                Log.d(TAG, "updateSystemRequirementsCard() - Set shizukuActionsContainer.visibility = GONE")
             }
 
             // Update battery optimization section
@@ -798,14 +798,14 @@ class MainFragment : Fragment() {
 
 
     private fun updateBackgroundPermissionErrorCard(uiState: UiState) {
-        // Show error card only when root is granted but background service permission is missing
-        val shouldShowError = uiState.isRootGranted && !uiState.backgroundServicePermissionGranted
+        // Show error card only when Shizuku is granted but background service permission is missing
+        val shouldShowError = uiState.isShizukuGranted && !uiState.backgroundServicePermissionGranted
         binding.backgroundPermissionErrorCard.root.visibility = if (shouldShowError) View.VISIBLE else View.GONE
     }
 
     private fun updateInteractiveElementsState(uiState: UiState) {
         // Enable only when privilege method is available AND permission is granted
-        val isEnabled = uiState.privilegeMethod != io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE && uiState.isRootGranted
+        val isEnabled = uiState.privilegeMethod != io.github.dorumrr.privacyflip.privilege.PrivilegeMethod.NONE && uiState.isShizukuGranted
 
         // Global privacy switch
         binding.globalPrivacyCard.globalPrivacySwitch.isEnabled = isEnabled

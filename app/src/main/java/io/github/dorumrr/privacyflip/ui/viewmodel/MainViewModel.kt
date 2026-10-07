@@ -13,7 +13,7 @@ import io.github.dorumrr.privacyflip.data.*
 import io.github.dorumrr.privacyflip.permission.PermissionChecker
 import io.github.dorumrr.privacyflip.privacy.PrivacyManager
 import io.github.dorumrr.privacyflip.privilege.PrivilegeMethod
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 import io.github.dorumrr.privacyflip.service.PrivacyMonitorService
 import io.github.dorumrr.privacyflip.util.Constants
 import io.github.dorumrr.privacyflip.util.DebugLogHelper
@@ -44,7 +44,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private val rootManager = RootManager.getInstance(Unit)
+    private val shizukuManager = ShizukuManager.getInstance(Unit)
     private lateinit var privacyManager: PrivacyManager
     private lateinit var permissionChecker: PermissionChecker
     private lateinit var logManager: LogManager
@@ -73,8 +73,8 @@ class MainViewModel : ViewModel() {
         logManager.i(TAG, "App version: ${context.packageManager.getPackageInfo(context.packageName, 0).versionName}")
 
         viewModelScope.launch {
-            rootManager.initialize(context)
-            checkRootStatus()
+            shizukuManager.initialize(context)
+            checkShizukuStatus()
         }
 
         loadTimerSettings()
@@ -100,24 +100,24 @@ class MainViewModel : ViewModel() {
         _uiState.value = update(currentState)
     }
 
-    private fun checkRootStatus() {
-        logManager.d(TAG, "checkRootStatus() called - checking privilege method and availability")
+    private fun checkShizukuStatus() {
+        logManager.d(TAG, "checkShizukuStatus() called - checking privilege method and availability")
         viewModelScope.launch {
             updateUiState { it.copy(isLoading = true) }
 
             try {
-                val privilegeMethod = rootManager.getPrivilegeMethod()
-                logManager.d(TAG, "checkRootStatus() - privilegeMethod: $privilegeMethod")
-                val isPrivilegeAvailable = rootManager.isRootAvailable()
-                logManager.d(TAG, "checkRootStatus() - isPrivilegeAvailable: $isPrivilegeAvailable")
+                val privilegeMethod = shizukuManager.getPrivilegeMethod()
+                logManager.d(TAG, "checkShizukuStatus() - privilegeMethod: $privilegeMethod")
+                val isPrivilegeAvailable = shizukuManager.isShizukuAvailable()
+                logManager.d(TAG, "checkShizukuStatus() - isPrivilegeAvailable: $isPrivilegeAvailable")
                 val currentState = _uiState.value ?: UiState()
 
                 val isPrivilegeGranted = if (isPrivilegeAvailable) {
-                    val alreadyGranted = rootManager.isRootGranted()
-                    if (!alreadyGranted && !currentState.hasTriedAutoRootRequest) {
-                        // Set flag BEFORE requesting to prevent duplicate requests if checkRootStatus() is called again
-                        updateUiState { it.copy(hasTriedAutoRootRequest = true) }
-                        val granted = rootManager.requestRootPermission()
+                    val alreadyGranted = shizukuManager.isShizukuGranted()
+                    if (!alreadyGranted && !currentState.hasTriedAutoShizukuRequest) {
+                        // Set flag BEFORE requesting to prevent duplicate requests if checkShizukuStatus() is called again
+                        updateUiState { it.copy(hasTriedAutoShizukuRequest = true) }
+                        val granted = shizukuManager.requestShizukuPermission()
                         granted
                     } else {
                         alreadyGranted
@@ -128,8 +128,8 @@ class MainViewModel : ViewModel() {
 
                 updateUiState {
                     it.copy(
-                        isRootAvailable = isPrivilegeAvailable,
-                        isRootGranted = isPrivilegeGranted,
+                        isShizukuAvailable = isPrivilegeAvailable,
+                        isShizukuGranted = isPrivilegeGranted,
                         privilegeMethod = privilegeMethod,
                         privilegeMethodName = privilegeMethod.getDisplayName(),
                         privilegeMethodDescription = privilegeMethod.getDescription(),
@@ -344,46 +344,46 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun requestRootPermission() {
+    fun requestShizukuPermission() {
         viewModelScope.launch {
-            logManager.d(TAG, "========== requestRootPermission() START ==========")
+            logManager.d(TAG, "========== requestShizukuPermission() START ==========")
             val currentState = _uiState.value
-            logManager.d(TAG, "requestRootPermission() - Current UI state: isRootGranted=${currentState?.isRootGranted}, isRootAvailable=${currentState?.isRootAvailable}")
+            logManager.d(TAG, "requestShizukuPermission() - Current UI state: isShizukuGranted=${currentState?.isShizukuGranted}, isShizukuAvailable=${currentState?.isShizukuAvailable}")
 
             updateUiState { it.copy(isLoading = true) }
 
             try {
-                val privilegeMethod = rootManager.getPrivilegeMethod()
-                logManager.d(TAG, "requestRootPermission() - Privilege method: $privilegeMethod")
+                val privilegeMethod = shizukuManager.getPrivilegeMethod()
+                logManager.d(TAG, "requestShizukuPermission() - Privilege method: $privilegeMethod")
 
-                logManager.d(TAG, "requestRootPermission() - Calling rootManager.forceRootPermissionRequest()...")
-                val isRootGranted = rootManager.forceRootPermissionRequest()
-                logManager.d(TAG, "requestRootPermission() - forceRootPermissionRequest() returned: $isRootGranted")
+                logManager.d(TAG, "requestShizukuPermission() - Calling shizukuManager.forceShizukuPermissionRequest()...")
+                val isShizukuGranted = shizukuManager.forceShizukuPermissionRequest()
+                logManager.d(TAG, "requestShizukuPermission() - forceShizukuPermissionRequest() returned: $isShizukuGranted")
 
                 // Double-check the actual permission state
-                val actualGranted = rootManager.isRootGranted()
-                logManager.d(TAG, "requestRootPermission() - Double-checking: rootManager.isRootGranted() = $actualGranted")
+                val actualGranted = shizukuManager.isShizukuGranted()
+                logManager.d(TAG, "requestShizukuPermission() - Double-checking: shizukuManager.isShizukuGranted() = $actualGranted")
 
-                logManager.d(TAG, "requestRootPermission() - Updating UI state with isRootGranted=$isRootGranted")
+                logManager.d(TAG, "requestShizukuPermission() - Updating UI state with isShizukuGranted=$isShizukuGranted")
                 updateUiState {
                     it.copy(
-                        isRootGranted = isRootGranted,
+                        isShizukuGranted = isShizukuGranted,
                         isLoading = false
                     )
                 }
 
-                if (isRootGranted) {
-                    logManager.d(TAG, "requestRootPermission() - Permission granted, loading privacy and permission status...")
+                if (isShizukuGranted) {
+                    logManager.d(TAG, "requestShizukuPermission() - Permission granted, loading privacy and permission status...")
                     loadPrivacyStatus()
                     loadPermissionStatus()
                 } else {
-                    logManager.w(TAG, "requestRootPermission() - Permission NOT granted")
+                    logManager.w(TAG, "requestShizukuPermission() - Permission NOT granted")
                 }
 
-                logManager.d(TAG, "========== requestRootPermission() END ==========")
+                logManager.d(TAG, "========== requestShizukuPermission() END ==========")
             } catch (e: Exception) {
-                logManager.e(TAG, "requestRootPermission() - ERROR: ${e.message}")
-                logManager.e(TAG, "requestRootPermission() - Stack trace: ${e.stackTraceToString()}")
+                logManager.e(TAG, "requestShizukuPermission() - ERROR: ${e.message}")
+                logManager.e(TAG, "requestShizukuPermission() - Stack trace: ${e.stackTraceToString()}")
                 updateUiState {
                     it.copy(
                         isLoading = false
@@ -397,18 +397,18 @@ class MainViewModel : ViewModel() {
         logManager.d(TAG, "refresh() called - reloading status WITHOUT auto-requesting permission")
         viewModelScope.launch {
             try {
-                val privilegeMethod = rootManager.getPrivilegeMethod()
-                val isPrivilegeAvailable = rootManager.isRootAvailable()
+                val privilegeMethod = shizukuManager.getPrivilegeMethod()
+                val isPrivilegeAvailable = shizukuManager.isShizukuAvailable()
                 val isPrivilegeGranted = if (isPrivilegeAvailable) {
-                    rootManager.isRootGranted()
+                    shizukuManager.isShizukuGranted()
                 } else {
                     false
                 }
 
                 updateUiState {
                     it.copy(
-                        isRootAvailable = isPrivilegeAvailable,
-                        isRootGranted = isPrivilegeGranted,
+                        isShizukuAvailable = isPrivilegeAvailable,
+                        isShizukuGranted = isPrivilegeGranted,
                         privilegeMethod = privilegeMethod,
                         privilegeMethodName = privilegeMethod.getDisplayName(),
                         privilegeMethodDescription = privilegeMethod.getDescription()
@@ -1116,8 +1116,8 @@ data class ScreenLockConfig(
 
 data class UiState(
     val isLoading: Boolean = false,
-    val isRootAvailable: Boolean = false,
-    val isRootGranted: Boolean = false,
+    val isShizukuAvailable: Boolean = false,
+    val isShizukuGranted: Boolean = false,
     // New: Privilege method information
     val privilegeMethod: PrivilegeMethod = PrivilegeMethod.NONE,
     val privilegeMethodName: String = "None",
@@ -1128,7 +1128,7 @@ data class UiState(
     val ungrantedPermissions: List<PermissionChecker.PermissionStatus> = emptyList(),
     val pendingPermissionRequest: Array<String>? = null,
     val hasTriedAutoRequest: Boolean = false,
-    val hasTriedAutoRootRequest: Boolean = false,
+    val hasTriedAutoShizukuRequest: Boolean = false,
     val screenLockConfig: ScreenLockConfig = ScreenLockConfig(),
     val backgroundServiceEnabled: Boolean = Constants.Defaults.BACKGROUND_SERVICE_ENABLED,
     val backgroundServicePermissionGranted: Boolean = false,

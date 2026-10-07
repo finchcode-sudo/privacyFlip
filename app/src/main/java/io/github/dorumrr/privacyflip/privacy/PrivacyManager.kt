@@ -3,20 +3,20 @@ package io.github.dorumrr.privacyflip.privacy
 import android.content.Context
 import android.util.Log
 import io.github.dorumrr.privacyflip.data.*
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 import io.github.dorumrr.privacyflip.util.DebugLogHelper
 import io.github.dorumrr.privacyflip.util.SingletonHolder
 import kotlinx.coroutines.*
 
 class PrivacyManager private constructor(
     private val context: Context,
-    private val rootManager: RootManager
+    private val shizukuManager: ShizukuManager
 ) {
 
     companion object : SingletonHolder<PrivacyManager, Context>({ context ->
         PrivacyManager(
             context.applicationContext,
-            RootManager.getInstance(Unit)
+            ShizukuManager.getInstance(Unit)
         )
     }) {
         private const val TAG = "privacyFlip-PrivacyManager"
@@ -48,15 +48,15 @@ class PrivacyManager private constructor(
     }
     
     private fun initializeToggles() {
-        toggles[PrivacyFeature.WIFI] = WiFiToggle(rootManager)
-        toggles[PrivacyFeature.BLUETOOTH] = BluetoothToggle(rootManager)
-        toggles[PrivacyFeature.MOBILE_DATA] = MobileDataToggle(rootManager)
-        toggles[PrivacyFeature.LOCATION] = LocationToggle(rootManager)
-        toggles[PrivacyFeature.NFC] = NFCToggle(rootManager, context)
-        toggles[PrivacyFeature.CAMERA] = CameraToggle(rootManager)
-        toggles[PrivacyFeature.MICROPHONE] = MicrophoneToggle(rootManager)
-        toggles[PrivacyFeature.AIRPLANE_MODE] = AirplaneModeToggle(rootManager)
-        toggles[PrivacyFeature.BATTERY_SAVER] = BatterySaverToggle(rootManager)
+        toggles[PrivacyFeature.WIFI] = WiFiToggle(shizukuManager)
+        toggles[PrivacyFeature.BLUETOOTH] = BluetoothToggle(shizukuManager)
+        toggles[PrivacyFeature.MOBILE_DATA] = MobileDataToggle(shizukuManager)
+        toggles[PrivacyFeature.LOCATION] = LocationToggle(shizukuManager)
+        toggles[PrivacyFeature.NFC] = NFCToggle(shizukuManager, context)
+        toggles[PrivacyFeature.CAMERA] = CameraToggle(shizukuManager)
+        toggles[PrivacyFeature.MICROPHONE] = MicrophoneToggle(shizukuManager)
+        toggles[PrivacyFeature.AIRPLANE_MODE] = AirplaneModeToggle(shizukuManager)
+        toggles[PrivacyFeature.BATTERY_SAVER] = BatterySaverToggle(shizukuManager)
     }
     
     fun getAvailableToggles(): Map<PrivacyFeature, PrivacyToggle> {

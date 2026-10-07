@@ -163,7 +163,7 @@ class ShizukuExecutor : PrivilegeExecutor {
 
             logManager?.d(TAG, "requestPermission() - About to show Shizuku permission dialog...")
 
-            // 30-second timeout to match root permission timeout
+            // 30-second timeout to match permission timeout
             val granted = withTimeoutOrNull(30000) {
                 suspendCancellableCoroutine { continuation ->
                     logManager?.d(TAG, "requestPermission() - Setting up continuation for permission request")

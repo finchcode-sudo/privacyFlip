@@ -4,5 +4,5 @@
     <include domain="sharedpref" path="." />
     
     <!-- Exclude sensitive data -->
-    <exclude domain="sharedpref" path="root_status.xml" />
+    <exclude domain="sharedpref" path="privilege_status.xml" />
 </full-backup-content>

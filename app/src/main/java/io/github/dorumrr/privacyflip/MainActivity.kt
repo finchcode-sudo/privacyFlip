@@ -71,8 +71,8 @@ class MainActivity : AppCompatActivity() {
                 viewModel.clearPendingPermissionRequest()
             }
 
-            // Handle battery optimization after root is granted (only once)
-            if (uiState.isRootGranted && !hasPromptedBatteryOptimization) {
+            // Handle battery optimization after Shizuku is granted (only once)
+            if (uiState.isShizukuGranted && !hasPromptedBatteryOptimization) {
                 hasPromptedBatteryOptimization = true
 
                 lifecycleScope.launch {
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
                         delay(1000)
 
-                        Log.i("MainActivity", "Auto-prompting for battery optimization exemption (after root granted)")
+                        Log.i("MainActivity", "Auto-prompting for battery optimization exemption (after Shizuku granted)")
 
                         try {
                             val intent = batteryManager.createBatteryOptimizationIntent()

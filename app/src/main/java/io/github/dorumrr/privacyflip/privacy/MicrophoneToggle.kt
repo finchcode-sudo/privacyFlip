@@ -2,10 +2,10 @@ package io.github.dorumrr.privacyflip.privacy
 
 import android.os.Build
 import io.github.dorumrr.privacyflip.data.*
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 import io.github.dorumrr.privacyflip.util.StatusParsingUtils
 
-class MicrophoneToggle(rootManager: RootManager) : BasePrivacyToggle(rootManager) {
+class MicrophoneToggle(shizukuManager: ShizukuManager) : BasePrivacyToggle(shizukuManager) {
 
     override val feature = PrivacyFeature.MICROPHONE
     override val featureName = "Microphone"

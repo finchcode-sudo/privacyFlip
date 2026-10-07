@@ -2,10 +2,10 @@ package io.github.dorumrr.privacyflip.privacy
 
 import android.os.Build
 import io.github.dorumrr.privacyflip.data.*
-import io.github.dorumrr.privacyflip.root.RootManager
+import io.github.dorumrr.privacyflip.privilege.ShizukuManager
 import io.github.dorumrr.privacyflip.util.StatusParsingUtils
 
-class CameraToggle(rootManager: RootManager) : BasePrivacyToggle(rootManager) {
+class CameraToggle(shizukuManager: ShizukuManager) : BasePrivacyToggle(shizukuManager) {
 
     override val feature = PrivacyFeature.CAMERA
     override val featureName = "Camera"

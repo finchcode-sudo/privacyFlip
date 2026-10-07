@@ -51,7 +51,7 @@ interface PrivilegeExecutor {
     
     /**
      * Get the UID (user ID) this executor runs as
-     * @return 0 for root, 2000 for ADB/Shizuku, -1 for unknown
+     * @return 2000 for ADB/Shizuku, -1 for unknown
      */
     suspend fun getUid(): Int
     
