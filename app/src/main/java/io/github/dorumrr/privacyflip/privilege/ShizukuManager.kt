@@ -154,12 +154,6 @@ class ShizukuManager private constructor() {
     }
 }
 
-data class CommandResult(
-    val success: Boolean,
-    val output: List<String>,
-    val error: String? = null,
-    val exitCode: Int = -1
-)
 
 data class DeviceInfo(
     val apiLevel: Int,
